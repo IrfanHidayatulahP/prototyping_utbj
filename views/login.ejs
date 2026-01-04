@@ -1,0 +1,81 @@
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
+    <!-- Left: branding (hidden on mobile) -->
+    <div class="hidden md:flex flex-col justify-center p-10 bg-gradient-to-br from-indigo-700 to-indigo-500 text-white">
+        <div class="flex items-center gap-3 mb-6">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                <rect x="2" y="3" width="20" height="18" rx="3" stroke="white" stroke-width="1.5" />
+                <path d="M6 8h12M6 12h12M7 16h10" stroke="white" stroke-width="1.2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            <div>
+                <h2 class="text-2xl font-semibold">Universitas Tunas Bangsa Jaya</h2>
+                <p class="text-sm opacity-90">Sistem Pengajuan Proposal Penelitian</p>
+            </div>
+        </div>
+        <div class="mt-4 text-sm leading-relaxed">
+            <p class="mb-3">Masuk untuk mengajukan atau meninjau proposal penelitian, mengunggah laporan, dan
+                melihat status penelitian.</p>
+            <ul class="list-disc pl-5 opacity-95">
+                <li>Pengajuan proposal (Dosen)</li>
+                <li>Review proposal (Reviewer)</li>
+                <li>Manajemen gelombang & laporan (Admin)</li>
+            </ul>
+        </div>
+        <div class="mt-auto opacity-90 text-xs">UTBJ • Final Project 2025/2026</div>
+    </div>
+
+
+    <!-- Right: form -->
+    <div class="p-8 md:p-10">
+        <h3 class="text-lg font-medium text-gray-800 mb-2">Selamat datang kembali</h3>
+        <p class="text-sm text-gray-500 mb-6">Masukkan kredensial Anda untuk melanjutkan.</p>
+
+
+        <form action="/login" method="post" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email atau NIDN</label>
+                <input name="identifier" type="text" placeholder="contoh@utbj.ac.id atau 12345678"
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            </div>
+
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Kata sandi</label>
+                <input name="password" type="password" placeholder="Masukkan kata sandi"
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            </div>
+
+
+            <div class="flex gap-3 items-center">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Peran</label>
+                    <select name="role"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        <option value="dosen">Dosen</option>
+                        <option value="reviewer">Reviewer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+
+                <div class="flex items-center gap-2">
+                    <input id="remember" type="checkbox" name="remember" class="h-4 w-4" />
+                    <label for="remember" class="text-sm text-gray-600">Ingat saya</label>
+                </div>
+            </div>
+
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                    class="inline-flex items-center justify-center gap-2 px-5 py-2 bg-indigo-600 text-white rounded-lg font-semibold shadow-sm hover:bg-indigo-700">Masuk</button>
+                <a href="#" class="text-sm text-indigo-600 hover:underline">Lupa kata sandi?</a>
+            </div>
+
+
+            <div class="pt-4 border-t mt-2">
+                <p class="text-sm text-gray-600">Belum punya akun? <a href="#"
+                        class="text-indigo-600 font-medium hover:underline">Daftar sebagai dosen</a></p>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,222 @@
+<%- include('../../partials/header.ejs') %>
+
+    <style>
+        /* ===============================
+   PROPOSAL PAGE STYLE
+   =============================== */
+        body {
+            background: #e6e6e6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .proposal-page {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .proposal-wrapper {
+            max-width: 1500px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 32px 40px;
+        }
+
+        /* ===============================
+   HEADER
+   =============================== */
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 30px;
+            padding: 10px 16px;
+            width: 320px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .search-bar i {
+            color: #777;
+        }
+
+        /* ===============================
+   TABLE
+   =============================== */
+        .table-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #f5f5f5;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        td {
+            text-align: left;
+        }
+
+        td.center {
+            text-align: center;
+        }
+
+        /* wrap panjang */
+        .wrap {
+            max-width: 260px;
+            white-space: normal;
+        }
+
+        /* ===============================
+   ACTION BUTTON
+   =============================== */
+        .btn-detail {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #aaa;
+            background: #fff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .btn-detail:hover {
+            background: #f0f0f0;
+        }
+
+        /* ===============================
+   FOOTER
+   =============================== */
+        .table-footer {
+            text-align: right;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #444;
+        }
+    </style>
+
+    <div class="proposal-page">
+        <div class="proposal-wrapper">
+
+            <h1 class="page-title">Proposal</h1>
+
+            <!-- SEARCH -->
+            <div class="search-bar">
+                <i class="bx bx-search"></i>
+                <input type="text" id="searchInput" placeholder="Cari Proposal">
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-container">
+                <table id="proposalTable">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Judul Penelitian</th>
+                            <th>Nama Tim Peneliti</th>
+                            <th>Skema Penelitian</th>
+                            <th>Bidang Penelitian</th>
+                            <th>Usulan Dana</th>
+                            <th>Deskripsi Singkat</th>
+                            <th>File Proposal</th>
+                            <th>Usulan Luaran</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% proposals.forEach((p, index)=> { %>
+                            <tr>
+                                <td class="center">
+                                    <%= index + 1 %>
+                                </td>
+                                <td class="wrap">
+                                    <%= p.judul %>
+                                </td>
+                                <td>
+                                    <%= p.peneliti %>
+                                </td>
+                                <td>
+                                    <%= p.skema %>
+                                </td>
+                                <td>
+                                    <%= p.bidang %>
+                                </td>
+                                <td>Rp <%= p.dana.toLocaleString('id-ID') %>
+                                </td>
+                                <td class="wrap">
+                                    <%= p.deskripsi %>
+                                </td>
+                                <td>
+                                    <a href="<%= p.file %>" target="_blank">
+                                        <%= p.fileName %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <%= p.luaran %>
+                                </td>
+                                <td class="center">
+                                    <a href="/reviewer/proposal/<%= p.id %>" class="btn-detail">Detail</a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+
+                <div class="table-footer">
+                    Total Proposal : <strong>
+                        <%= proposals.length %>
+                    </strong>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        /* ===============================
+           SEARCH FILTER
+           =============================== */
+        const searchInput = document.getElementById('searchInput');
+        const rows = document.querySelectorAll('#proposalTable tbody tr');
+
+        searchInput.addEventListener('keyup', () => {
+            const value = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(value)
+                    ? ''
+                    : 'none';
+            });
+        });
+    </script>
+
+    <%- include('../../partials/footer.ejs') %>

@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+
+    <div class="stats-grid">
+        <div class="card">
+            <div class="card-icon blue"><i class='bx bx-file-blank'></i></div>
+            <div class="card-info">
+                <h3>Proposal Diajukan</h3>
+                <h2><%= stats.proposalsSubmitted %></h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon yellow"><i class='bx bx-time-five'></i></div>
+            <div class="card-info">
+                <h3>Sedang Berjalan</h3>
+                <h2><%= stats.proposalsInProgress %></h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon green"><i class='bx bx-check-circle'></i></div>
+            <div class="card-info">
+                <h3>Publikasi</h3>
+                <h2><%= stats.publications %></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h3 class="section-title">Pengajuan Terbaru</h3>
+        
+        <table class="dark-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Judul</th>
+                    <th>Status</th>
+                    <th>Tanggal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% recentSubmissions.forEach(s => { %>
+                    <tr>
+                        <td>#<%= s.id %></td>
+                        <td><%= s.title %></td>
+                        <td>
+                            <span class="status-badge <%= s.status.toLowerCase() %>">
+                                <%= s.status %>
+                            </span>
+                        </td>
+                        <td><%= s.submitted_at %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+<%- include('../partials/footer') %>
