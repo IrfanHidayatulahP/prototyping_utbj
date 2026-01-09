@@ -1,0 +1,203 @@
+<%- include('../../partials/header') %>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body { font-family: 'Roboto', sans-serif; }
+    .bg-custom-gray { background-color: #F4F5F7; }
+    .material-input-container { position: relative; }
+    .material-input-container::after {
+        content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+        background-color: #4f46e5; transform: scaleX(0); transition: transform 0.2s ease;
+    }
+    .material-input-container:focus-within::after { transform: scaleX(1); }
+</style>
+
+<div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-custom-gray">
+
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 z-20">
+        <button class="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg"><i class="ph ph-list text-2xl"></i></button>
+        <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">Dashboard Admin</h1>
+        <div class="flex items-center gap-4">
+            <div class="text-right hidden sm:block">
+                <p class="text-sm font-medium text-gray-700"><%= typeof user !== 'undefined' ? user.name : 'Administrator' %></p>
+                <p class="text-xs text-gray-500">Super Admin</p>
+            </div>
+            <div class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 shadow-sm"><i class="ph ph-user"></i></div>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-4 sm:p-8 pb-32">
+        
+        <div class="max-w-4xl mx-auto mb-6">
+            <nav class="flex mb-2 text-sm text-gray-500">
+                <a href="/admin/proposal/detail/<%= tahun %>/<%= gelombang %>" class="hover:text-indigo-600 flex items-center gap-1">
+                    <i class="ph ph-arrow-left"></i> Kembali ke Detail
+                </a>
+            </nav>
+            <h2 class="text-2xl font-bold text-gray-900">Tambah Penilaian Proposal</h2>
+        </div>
+
+        <form action="/admin/proposal/detail/<%= tahun %>/<%= gelombang %>/store-penilaian" method="POST" class="max-w-4xl mx-auto relative" id="assessmentForm">
+
+            <div id="questions-container" class="space-y-4 relative">
+                
+                <div class="question-card bg-purple-100 border border-purple-200 rounded-xl p-6 relative group shadow-sm" data-index="0">
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                        <div class="flex-1 bg-white rounded-lg border border-gray-300 focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 transition-all px-4 py-3 shadow-sm">
+                            <input type="text" name="questions[0][title]" class="w-full bg-transparent border-none outline-none text-base text-gray-800 placeholder-gray-500" placeholder="Masukkan Pertanyaan" required autofocus>
+                        </div>
+                        <button type="button" onclick="addQuestion()" class="sm:w-auto bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg px-6 py-3 flex items-center justify-center gap-2 shadow-sm transition-colors whitespace-nowrap">
+                            <i class="ph ph-plus-circle text-xl text-indigo-600"></i>
+                            <span>Tambah Pertanyaan</span>
+                        </button>
+                    </div>
+
+                    <div class="options-container space-y-3 pl-1 mb-2">
+                        <div class="option-item flex items-center gap-3 group/option">
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-white"></div>
+                            <input type="text" name="questions[0][options][]" class="flex-1 bg-transparent border-b border-gray-300 hover:border-gray-400 focus:border-indigo-600 outline-none py-1 text-sm text-gray-800 transition-colors" placeholder="Opsi 1" required>
+                            <button type="button" onclick="removeOption(this)" class="text-gray-400 hover:text-red-600 transition-colors p-1" title="Hapus opsi"><i class="ph ph-trash text-lg"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="flex items-center gap-3 pl-1">
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-transparent opacity-50"></div>
+                            <div class="text-sm text-gray-500 flex gap-1">
+                                <button type="button" onclick="addOption(this)" class="hover:border-b hover:border-gray-300 pb-0.5 cursor-pointer font-medium">Tambahkan opsi</button>
+                                <span>atau</span>
+                                <button type="button" onclick="addOption(this)" class="text-indigo-600 font-medium hover:underline cursor-pointer">tambahkan "Lainnya"</button>
+                            </div>
+                        </div>
+                        
+                        <button type="button" onclick="removeQuestion(this)" class="delete-question-btn text-gray-400 hover:text-red-600 p-2 hidden">
+                            <i class="ph ph-trash text-xl"></i> Hapus Pertanyaan
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-12 flex justify-end gap-3">
+                <a href="/admin/proposal/detail/<%= tahun %>/<%= gelombang %>" class="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors no-underline">Batal</a>
+                <button type="submit" class="px-6 py-2.5 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-md transition-all">Simpan</button>
+            </div>
+
+        </form>
+    </main>
+</div>
+
+<script>
+    let questionCount = 1;
+
+    // Fungsi Tambah Opsi
+    function addOption(btnElement) {
+        // Cari container opsi di dalam kartu pertanyaan ini
+        const card = btnElement.closest('.question-card');
+        const optionsContainer = card.querySelector('.options-container');
+        const qIndex = card.getAttribute('data-index');
+
+        // Buat elemen opsi baru
+        const newOption = document.createElement('div');
+        newOption.className = 'option-item flex items-center gap-3 group/option';
+        newOption.innerHTML = `
+            <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-white"></div>
+            <input type="text" name="questions[${qIndex}][options][]" class="flex-1 bg-transparent border-b border-gray-300 hover:border-gray-400 focus:border-indigo-600 outline-none py-1 text-sm text-gray-800 transition-colors" placeholder="Opsi Baru" required>
+            <button type="button" onclick="removeOption(this)" class="text-gray-400 hover:text-red-600 transition-colors p-1" title="Hapus opsi"><i class="ph ph-trash text-lg"></i></button>
+        `;
+        
+        optionsContainer.appendChild(newOption);
+        
+        // Focus ke input baru
+        newOption.querySelector('input').focus();
+    }
+
+    // Fungsi Hapus Opsi
+    function removeOption(btnElement) {
+        const optionItem = btnElement.closest('.option-item');
+        // Jangan hapus jika itu satu-satunya opsi (opsional, tapi baik untuk UX)
+        const container = optionItem.parentElement;
+        if (container.querySelectorAll('.option-item').length > 1) {
+            optionItem.remove();
+        } else {
+            alert("Minimal satu opsi jawaban harus ada.");
+        }
+    }
+
+    // Fungsi Tambah Pertanyaan Baru
+    function addQuestion() {
+        const container = document.getElementById('questions-container');
+        const newIndex = questionCount;
+        
+        const newCard = document.createElement('div');
+        newCard.className = 'question-card bg-purple-100 border border-purple-200 rounded-xl p-6 relative group shadow-sm mt-4';
+        newCard.setAttribute('data-index', newIndex);
+        
+        newCard.innerHTML = `
+            <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                <div class="flex-1 bg-white rounded-lg border border-gray-300 focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 transition-all px-4 py-3 shadow-sm">
+                    <input type="text" name="questions[${newIndex}][title]" class="w-full bg-transparent border-none outline-none text-base text-gray-800 placeholder-gray-500" placeholder="Masukkan Pertanyaan" required>
+                </div>
+                <div class="sm:w-auto w-10"></div> 
+            </div>
+
+            <div class="options-container space-y-3 pl-1 mb-2">
+                <div class="option-item flex items-center gap-3 group/option">
+                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-white"></div>
+                    <input type="text" name="questions[${newIndex}][options][]" class="flex-1 bg-transparent border-b border-gray-300 hover:border-gray-400 focus:border-indigo-600 outline-none py-1 text-sm text-gray-800 transition-colors" placeholder="Opsi 1" required>
+                    <button type="button" onclick="removeOption(this)" class="text-gray-400 hover:text-red-600 transition-colors p-1" title="Hapus opsi"><i class="ph ph-trash text-lg"></i></button>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center gap-3 pl-1">
+                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-transparent opacity-50"></div>
+                    <div class="text-sm text-gray-500 flex gap-1">
+                        <button type="button" onclick="addOption(this)" class="hover:border-b hover:border-gray-300 pb-0.5 cursor-pointer font-medium">Tambahkan opsi</button>
+                        <span>atau</span>
+                        <button type="button" onclick="addOption(this)" class="text-indigo-600 font-medium hover:underline cursor-pointer">tambahkan "Lainnya"</button>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="removeQuestion(this)" class="delete-question-btn text-gray-500 hover:text-red-600 p-2 flex items-center gap-2 text-sm font-semibold transition-colors">
+                    <i class="ph ph-trash text-xl"></i> Hapus Pertanyaan
+                </button>
+            </div>
+        `;
+
+        container.appendChild(newCard);
+        questionCount++;
+        updateDeleteButtons();
+        
+        // Scroll ke pertanyaan baru
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Fungsi Hapus Pertanyaan
+    function removeQuestion(btnElement) {
+        const card = btnElement.closest('.question-card');
+        card.remove();
+        updateDeleteButtons();
+    }
+
+    // Update visibilitas tombol hapus pertanyaan (sembunyikan jika cuma sisa 1)
+    function updateDeleteButtons() {
+        const cards = document.querySelectorAll('.question-card');
+        cards.forEach(card => {
+            const deleteBtn = card.querySelector('.delete-question-btn');
+            if(deleteBtn) {
+                if (cards.length > 1) {
+                    deleteBtn.classList.remove('hidden');
+                } else {
+                    deleteBtn.classList.add('hidden');
+                }
+            }
+        });
+    }
+</script>
+
+<%- include('../../partials/footer') %>
