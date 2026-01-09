@@ -25,15 +25,14 @@
 
     <main class="flex-1 overflow-y-auto p-8">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div class="mb-6">
+            <nav class="flex mb-2 text-sm text-gray-500">
+                <a href="/admin/proposal" class="hover:text-indigo-600 flex items-center gap-1">
+                    <i class="ph ph-arrow-left"></i> Kembali ke Kelola Proposal
+                </a>
+            </nav>
+            <h2 class="text-2xl font-bold text-gray-900">Detail Gelombang Proposal (<%= tahun %>)</h2>
             
-            <h2 class="text-2xl font-bold text-gray-900">Kelola Gelombang List Tahun Akademik</h2>
-
-            <a href="/admin/gelombang/tambah" class="flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm no-underline">
-                <i class="ph ph-plus-circle text-lg"></i>
-                Tambah Tahun Akademik
-            </a>
-
         </div>
 
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col" style="min-height: 600px;">
@@ -46,21 +45,14 @@
                             <th class="py-4 px-4 w-16 text-center font-bold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
                                 No.
                             </th>
-                            
                             <th class="py-4 px-6 font-bold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
-                                Nama Tahun Akademik
+                                Nama Gelombang
                             </th>
-                            
-                            <th class="py-4 px-6 font-bold text-gray-600 text-center border-b-2 border-gray-300 border-r border-gray-200">
-                                Jumlah Gelombang
+                            <th class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                Periode Gelombang
                             </th>
-                            
-                            <th class="py-4 px-6 font-bold text-gray-600 text-center border-b-2 border-gray-300 border-r border-gray-200">
-                                Jumlah Proposal
-                            </th>
-                            
-                            <th class="py-4 px-8 font-semibold text-gray-600 border-b-2 border-gray-300 text-center">
-                                Total Dana
+                            <th class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300">
+                                Total Proposal
                             </th>
                         </tr>
                     </thead>
@@ -75,34 +67,27 @@
                                 </td>
                                 
                                 <td class="py-5 px-6 text-gray-800 border-b border-gray-200 border-r border-gray-200">
-                                    <a href="/admin/gelombang/detail/2025" class="text-indigo-600 hover:underline">
-                                        <%= item.tahun_akademik %>
+                                    <% const slug = item.nama.replace(/\s+/g, '-').toLowerCase(); %>
+                                    <a href="/admin/proposal/detail/<%= tahun %>/<%= slug %>" class="text-indigo-600 hover:underline">
+                                        <%= item.nama %>
                                     </a>
                                 </td>
                                 
                                 <td class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200">
-                                    <%= item.jml_gelombang %>
+                                    <%= item.periode %>
                                 </td>
-                                
-                                <td class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200">
-                                    <%= item.jml_proposal %>
+                                <td class="py-5 px-6 text-center text-gray-800 border-b border-gray-200">
+                                    <%= item.total %>
                                 </td>
-                                
-                                <td class="py-5 px-8 text-gray-800 border-b border-gray-200 text-center">
-                                    <%= item.total_dana %>
-                                </td>
-                                
                             </tr>
                             <% }) %>
 
                         <% } else { %>
-                            
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-gray-400">
+                                <td colspan="4" class="px-6 py-12 text-center text-gray-400">
                                     Data belum tersedia.
                                 </td>
                             </tr>
-
                         <% } %>
                     </tbody>
                 </table>
@@ -111,7 +96,6 @@
             <div class="mt-auto border-t border-gray-400 pt-2"></div>
             
         </div>
-
     </main>
 </div>
 

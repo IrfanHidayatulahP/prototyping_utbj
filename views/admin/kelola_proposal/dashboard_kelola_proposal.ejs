@@ -1,0 +1,90 @@
+<%- include('../../partials/header') %>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-gray-100">
+
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-20">
+        <button class="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
+            <i class="ph ph-list text-2xl"></i>
+        </button>
+        
+        <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">Dashboard Admin</h1>
+
+        <div class="flex items-center gap-4">
+            <div class="text-right hidden sm:block">
+                <p class="text-sm font-medium text-gray-700"><%= typeof user !== 'undefined' ? user.name : 'Administrator' %></p>
+                <p class="text-xs text-gray-500">Super Admin</p>
+            </div>
+            <div class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 shadow-sm">
+                <i class="ph ph-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-8">
+        
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Kelola Proposal List Tahun Akademik</h2>
+
+        <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col" style="min-height: 500px;">
+            
+            <div class="overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    
+                    <thead>
+                        <tr>
+                            <th class="py-4 px-4 w-16 text-center font-semibold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                No.
+                            </th>
+                            
+                            <th class="py-4 px-8 font-semibold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200 text-center">
+                                Nama Tahun Akademik
+                            </th>
+                            
+                            <th class="py-4 px-8 font-semibold text-gray-600 border-b-2 border-gray-300 text-center">
+                                Total Proposal
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% if (typeof proposalList !== 'undefined' && proposalList.length > 0) { %>
+                            
+                            <% proposalList.forEach((item, index) => { %>
+                            <tr>
+                                <td class="py-5 px-4 text-center text-gray-500 border-b border-gray-200 border-r border-gray-200">
+                                    <%= index + 1 %>
+                                </td>
+                                
+                                <td class="px-6 py-5 font-medium text-gray-900 border-b border-gray-200 border-r border-gray-200">
+                                    <a href="/admin/proposal/detail/<%= item.tahun_id || 2025 %>" class="text-indigo-600 hover:underline">
+                                        <%= item.tahun_akademik %>
+                                    </a>
+                                </td>
+                                
+                                <td class="py-5 px-8 text-gray-800 border-b border-gray-200 text-center">
+                                    <%= item.total_proposal %>
+                                </td>
+                            </tr>
+                            <% }) %>
+
+                        <% } else { %>
+                            <tr>
+                                <td colspan="3" class="px-6 py-12 text-center text-gray-400">
+                                    Data belum tersedia
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="mt-auto border-t border-gray-400 pt-2"></div>
+
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer') %>

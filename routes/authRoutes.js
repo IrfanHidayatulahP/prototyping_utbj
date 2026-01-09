@@ -5,6 +5,10 @@ const authController = require('../controllers/authController');
 const dashboardController = require('../controllers/dashboardController');
 const requireAuth = require('../middleware/authMiddleware');
 
+router.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
 router.get('/login', authController.showLogin);
 router.post('/login', authController.postLogin);
 

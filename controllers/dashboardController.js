@@ -49,7 +49,7 @@ exports.showDashboard = (req, res) => {
 
     } else {
         // Admin langsung dilempar ke controller admin gelombang
-        return res.redirect('/admin/kelola-gelombang');
+        return res.redirect('/admin/gelombang');
     }
 
     // OPTIONAL DEBUG (boleh dihapus jika sudah stabil)
