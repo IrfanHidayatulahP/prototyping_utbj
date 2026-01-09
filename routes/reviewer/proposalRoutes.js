@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const proposalController = require('../../controllers/reviewer/proposalController');
 
-// routes/reviewer/proposalRoutes.js
-router.get('/proposal', proposalController.showProposalReviewer);
-router.get('/proposal/:id', proposalController.showProposalDetail);
+router.get('/proposal', proposalController.listReviewerProposal);
+router.get('/proposal/:id', proposalController.detailReviewerProposal);
 
 module.exports = router;

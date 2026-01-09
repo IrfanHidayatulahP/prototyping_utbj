@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 // Import Rute
 const authRoutes = require('./routes/authRoutes');  
 const proposalRoutes = require('./routes/reviewer/proposalRoutes');
+const dosenRoutes = require('./routes/dosen/dosenRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,5 +38,6 @@ app.use((req, res, next) => {
 
 app.use('/', authRoutes);
 app.use('/reviewer', proposalRoutes);
+app.use('/dosen', dosenRoutes);
 
 app.listen(PORT, () => console.log(`Server berjalan pada http://localhost:${PORT}`));

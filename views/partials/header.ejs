@@ -8,7 +8,6 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Boxicons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
     <style>
@@ -21,21 +20,29 @@
 
         body {
             background: #f5f7fb;
+            overflow-x: hidden;
+            /* Menghindari scroll horizontal */
         }
 
         .app-container {
             display: flex;
             min-height: 100vh;
+            width: 100%;
         }
 
-        /* Sidebar */
+        /* Sidebar - Tetap lebar 260px */
         .sidebar {
             width: 260px;
+            min-width: 260px;
+            /* Mencegah sidebar menyusut */
             background: #1e3a8a;
             color: #fff;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
 
         .logo {
@@ -47,6 +54,10 @@
 
         .menu {
             list-style: none;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Agar bisa menggunakan margin-top: auto */
         }
 
         .menu li {
@@ -71,8 +82,45 @@
             color: #fff;
         }
 
+        /* CSS KHUSUS TOMBOL LOGOUT */
+        .menu .logout-item {
+            margin-top: auto;
+            /* Memaksa tombol logout ke posisi paling bawah */
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a.logout-btn:hover {
+            background: #dc2626;
+            /* Merah saat di-hover */
+            color: white;
+        }
+
         .menu i {
             font-size: 20px;
+        }
+
+        /* --- PERBAIKAN FULL WIDTH UNTUK KONTEN UTAMA --- */
+        .main-content {
+            flex-grow: 1;
+            /* Mengambil seluruh sisa ruang di kanan sidebar */
+            width: 100%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Menghapus batasan lebar pada container di halaman view */
+        .container {
+            width: 100% !important;
+            max-width: none !important;
+            padding: 0 !important;
+        }
+
+        .form-container {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
         }
     </style>
 </head>
@@ -92,8 +140,6 @@
                 </div>
 
                 <ul class="menu">
-
-                    <!-- ================= ADMIN ================= -->
                     <% if (role==='admin' ) { %>
                         <li>
                             <a href="/admin/dashboard" class="<%= active==='dashboard'?'active':'' %>">
@@ -122,7 +168,6 @@
                         </li>
                         <% } %>
 
-                            <!-- ================= DOSEN ================= -->
                             <% if (role==='dosen' ) { %>
                                 <li>
                                     <a href="/dosen/dashboard" class="<%= active==='dashboard'?'active':'' %>">
@@ -130,7 +175,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/dosen/proposal/ajukan"
+                                    <a href="/dosen/proposal-ajukan"
                                         class="<%= active==='ajukan-proposal'?'active':'' %>">
                                         <i class='bx bx-edit'></i> Ajukan Proposal
                                     </a>
@@ -152,18 +197,16 @@
                                 </li>
                                 <% } %>
 
-                                    <!-- ================= REVIEWER ================= -->
                                     <% if (role==='reviewer' ) { %>
                                         <li>
-                                            <a href="/reviewer/dashboard"
+                                            <a href="/dashboard"
                                                 class="<%= active==='dashboard'?'active':'' %>">
                                                 <i class='bx bxs-dashboard'></i> Dashboard
                                             </a>
                                         </li>
-                                        <li class="<%= active === 'proposal' ? 'active' : '' %>">
-                                            <a href="/reviewer/proposal">
-                                                <i class="bx bx-file"></i>
-                                                Proposal
+                                        <li>
+                                            <a href="/reviewer/proposal" class="<%= active==='proposal'?'active':'' %>">
+                                                <i class="bx bx-file"></i> Proposal
                                             </a>
                                         </li>
                                         <li>
@@ -174,5 +217,12 @@
                                         </li>
                                         <% } %>
 
+                                            <li class="logout-item">
+                                                <a href="/logout" class="logout-btn">
+                                                    <i class='bx bx-log-out'></i> Logout
+                                                </a>
+                                            </li>
                 </ul>
             </aside>
+
+            <main class="main-content">

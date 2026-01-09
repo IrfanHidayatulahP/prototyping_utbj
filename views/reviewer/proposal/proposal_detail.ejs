@@ -1,0 +1,167 @@
+<%- include('../../partials/header.ejs') %>
+
+    <style>
+        body {
+            background: #e6e6e6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .detail-page {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .detail-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 40px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            row-gap: 14px;
+            column-gap: 20px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-size: 12px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #aaa;
+            background: #fff;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .btn:hover {
+            background: #f2f2f2;
+        }
+
+        .btn-primary {
+            background: #2b6cb0;
+            color: #fff;
+            border-color: #2b6cb0;
+        }
+
+        .btn-primary:hover {
+            background: #1e4f86;
+        }
+
+        .desc-box {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+
+    <div class="detail-page">
+        <div class="detail-wrapper">
+
+            <h1 class="page-title">Detail Proposal</h1>
+
+            <div class="card">
+                <div class="info-grid">
+                    <div class="info-label">Judul Penelitian</div>
+                    <div class="info-value">
+                        <%= proposal.judul %>
+                    </div>
+
+                    <div class="info-label">Nama Tim Peneliti</div>
+                    <div class="info-value">
+                        <%= proposal.peneliti %>
+                    </div>
+
+                    <div class="info-label">Skema Penelitian</div>
+                    <div class="info-value">
+                        <%= proposal.skema %>
+                    </div>
+
+                    <div class="info-label">Bidang Penelitian</div>
+                    <div class="info-value">
+                        <%= proposal.bidang %>
+                    </div>
+
+                    <div class="info-label">Usulan Dana</div>
+                    <div class="info-value">
+                        Rp <%= proposal.dana.toLocaleString('id-ID') %>
+                    </div>
+
+                    <div class="info-label">Usulan Luaran</div>
+                    <div class="info-value">
+                        <%= proposal.luaran %>
+                    </div>
+
+                    <div class="info-label">Status</div>
+                    <div class="info-value">
+                        <span class="badge">
+                            <%= proposal.status %>
+                        </span>
+                    </div>
+
+                    <div class="info-label">File Proposal</div>
+                    <div class="info-value">
+                        <a href="<%= proposal.file %>" target="_blank">
+                            <%= proposal.fileName %>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 12px;">Deskripsi Penelitian</h3>
+                <div class="desc-box">
+                    <%= proposal.deskripsi %>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="/reviewer/proposal" class="btn">← Kembali</a>
+                <button class="btn btn-primary">Mulai Review</button>
+            </div>
+
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
