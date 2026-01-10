@@ -1,0 +1,153 @@
+<%- include('../../partials/header.ejs') %>
+
+    <style>
+        body {
+            background: #e6e6e6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .review-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .proposal-info {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        .btn-submit {
+            background: #2b6cb0;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-submit:hover {
+            background: #1e4f86;
+        }
+    </style>
+
+    <div class="review-wrapper">
+        <h1 style="margin-bottom: 20px;">Penilaian Proposal</h1>
+
+        <form action="/reviewer/proposal/<%= proposal.id %>/review" method="POST">
+            <div class="card">
+                <div class="proposal-info">
+                    <small style="color: #777;">Judul Proposal</small>
+                    <h3 style="margin: 5px 0;">
+                        <%= proposal.judul %>
+                    </h3>
+                    <p style="font-size: 14px; color: #555;">Pengusul: <strong>
+                            <%= proposal.peneliti %>
+                        </strong></p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">No</th>
+                            <th>Kriteria Penilaian</th>
+                            <th style="width: 100px;">Bobot</th>
+                            <th style="width: 120px;">Skor (0-100)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Relevansi masalah dan urgensi penelitian</td>
+                            <td>30%</td>
+                            <td><input type="number" name="kriteria1" min="0" max="100" required></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Kesesuaian metode dan tinjauan pustaka</td>
+                            <td>40%</td>
+                            <td><input type="number" name="kriteria2" min="0" max="100" required></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Potensi luaran dan kemanfaatan hasil</td>
+                            <td>30%</td>
+                            <td><input type="number" name="kriteria3" min="0" max="100" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Catatan/Komentar Reviewer:</label>
+                <textarea name="catatan" placeholder="Tuliskan masukan untuk pengusul..." required></textarea>
+
+                <div style="margin-top: 20px;">
+                    <label style="font-weight: 600; display: block; margin-bottom: 10px;">Rekomendasi Akhir:</label>
+                    <select name="rekomendasi" required>
+                        <option value="">-- Pilih Rekomendasi --</option>
+                        <option value="Diterima">Diterima</option>
+                        <option value="Revisi">Diterima dengan Revisi</option>
+                        <option value="Ditolak">Ditolak</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button type="submit" class="btn-submit">Simpan Penilaian</button>
+                <a href="/reviewer/proposal/<%= proposal.id %>" style="text-decoration: none; color: #666;">Batal</a>
+            </div>
+        </form>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>

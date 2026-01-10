@@ -1,0 +1,131 @@
+<%- include('../../partials/header.ejs') %>
+
+    <style>
+        body {
+            background: #e6e6e6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .review-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn-submit {
+            background: #2b6cb0;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+
+    <div class="review-wrapper">
+        <h1 style="margin-bottom: 20px;">Penilaian Pelaksanaan Penelitian</h1>
+
+        <form action="/reviewer/penelitian/<%= penelitian.id %>/review" method="POST">
+            <div class="card">
+                <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                    <small style="color: #777;">Judul Penelitian</small>
+                    <h3 style="margin: 5px 0;">
+                        <%= penelitian.judul %>
+                    </h3>
+                    <p style="font-size: 14px; color: #555;">Ketua Peneliti: <strong>
+                            <%= penelitian.peneliti %>
+                        </strong></p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">No</th>
+                            <th>Kriteria Penilaian (Monitoring & Evaluasi)</th>
+                            <th style="width: 100px;">Bobot</th>
+                            <th style="width: 120px;">Skor (0-100)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Kesesuaian pelaksanaan dengan target rencana awal</td>
+                            <td>30%</td>
+                            <td><input type="number" name="kriteria1" min="0" max="100" required></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Capaian luaran (Publikasi/Produk/HAKI) yang dihasilkan</td>
+                            <td>40%</td>
+                            <td><input type="number" name="kriteria2" min="0" max="100" required></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Kesesuaian penggunaan dana dan rincian biaya</td>
+                            <td>30%</td>
+                            <td><input type="number" name="kriteria3" min="0" max="100" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;">Catatan/Saran Reviewer:</label>
+                <textarea name="catatan" placeholder="Masukan untuk perbaikan laporan..." required></textarea>
+
+                <div style="margin-top: 20px;">
+                    <label style="font-weight: 600; display: block; margin-bottom: 10px;">Rekomendasi:</label>
+                    <select name="rekomendasi" required>
+                        <option value="">-- Pilih Rekomendasi --</option>
+                        <option value="Sangat Baik">Sangat Baik (Lanjutkan)</option>
+                        <option value="Cukup">Cukup (Perlu Perbaikan)</option>
+                        <option value="Kurang">Kurang (Audit Khusus)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button type="submit" class="btn-submit">Simpan Hasil Monev</button>
+                <a href="/reviewer/penelitian/<%= penelitian.id %>"
+                    style="text-decoration: none; color: #666;">Batal</a>
+            </div>
+        </form>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>

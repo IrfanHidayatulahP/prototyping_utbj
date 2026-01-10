@@ -110,7 +110,7 @@
 
                     <div class="info-label">Nama Tim Peneliti</div>
                     <div class="info-value">
-                        <%= proposal.peneliti %>
+                        <%= proposal.pengusul %>
                     </div>
 
                     <div class="info-label">Skema Penelitian</div>
@@ -156,10 +156,71 @@
                 </div>
             </div>
 
-            <div class="actions">
-                <a href="/reviewer/proposal" class="btn">← Kembali</a>
-                <button class="btn btn-primary">Mulai Review</button>
-            </div>
+            <% if (locals.review) { %>
+                <div class="card" style="border-left: 5px solid #2b6cb0;">
+                    <h3 style="margin-bottom: 15px; color: #2b6cb0; display: flex; align-items: center; gap: 10px;">
+                        <i class='bx bx-check-shield'></i> Hasil Penilaian Reviewer
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 200px; gap: 20px;">
+                        <div>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 10px; border: 1px solid #eee;">Relevansi & Urgensi (30%)</td>
+                                    <td style="padding: 10px; border: 1px solid #eee; font-weight: bold;">
+                                        <%= review.kriteria1 %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #eee;">Metode & Pustaka (40%)</td>
+                                    <td style="padding: 10px; border: 1px solid #eee; font-weight: bold;">
+                                        <%= review.kriteria2 %>
+                                    </td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 10px; border: 1px solid #eee;">Potensi Luaran (30%)</td>
+                                    <td style="padding: 10px; border: 1px solid #eee; font-weight: bold;">
+                                        <%= review.kriteria3 %>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div style="margin-top: 15px;">
+                                <small style="color: #777; font-weight: 600;">Catatan Reviewer:</small>
+                                <p
+                                    style="background: #fff8e1; padding: 10px; border-radius: 6px; font-style: italic; font-size: 14px; margin-top: 5px;">
+                                    "<%= review.catatan %>"
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="text-align: center; background: #f0f4f8; padding: 20px; border-radius: 10px; display: flex; flex-direction: column; justify-content: center;">
+                            <span style="font-size: 12px; color: #555; text-transform: uppercase;">Skor Akhir</span>
+                            <div style="font-size: 42px; font-weight: 800; color: #2b6cb0;">
+                                <%= review.totalSkor %>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <span class="badge"
+                                    style="background: #2b6cb0; color: #fff; border: none; padding: 6px 12px;">
+                                    <%= review.rekomendasi %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                    <div class="actions">
+                        <a href="/reviewer/proposal" class="btn">← Kembali</a>
+
+                        <% if (locals.review) { %>
+                            <a href="/reviewer/proposal/<%= proposal.id %>/review" class="btn">Edit Penilaian</a>
+                            <% } else { %>
+                                <a href="/reviewer/proposal/<%= proposal.id %>/review" class="btn btn-primary">Mulai
+                                    Review</a>
+                                <% } %>
+                    </div>
 
         </div>
     </div>

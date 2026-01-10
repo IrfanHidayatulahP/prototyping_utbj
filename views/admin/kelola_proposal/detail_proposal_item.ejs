@@ -1,0 +1,255 @@
+<%- include('../../partials/header') %>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .bg-custom-gray {
+            background-color: #F4F5F7;
+        }
+    </style>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden bg-custom-gray">
+        <header
+            class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 z-20">
+            <h1 class="text-lg font-semibold text-gray-800">Verifikasi Proposal</h1>
+            <div class="flex items-center gap-4">
+                <div
+                    class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 border border-indigo-200 shadow-sm">
+                    <i class="ph ph-shield-check"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 sm:p-8 pb-32">
+            <div class="mb-6">
+                <nav class="flex mb-2 text-sm text-gray-500">
+                    <a href="/admin/proposal/detail/<%= tahun %>"
+                        class="hover:text-indigo-600 flex items-center gap-1 transition-colors">
+                        <i class="ph ph-arrow-left"></i> Kembali ke Gelombang
+                    </a>
+                </nav>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <h2 class="text-2xl font-bold text-gray-900 leading-tight max-w-2xl">
+                        <%= proposal.judul %>
+                    </h2>
+                    <div class="shrink-0">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider 
+                    <%= proposal.status === 'Diterima' ? 'bg-green-100 text-green-700' : 
+                       proposal.status === 'Ditolak' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700' %>">
+                            Status: <%= proposal.status %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <% if (error) { %>
+                <div class="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl">
+                    <i class="ph ph-warning-circle text-xl"></i>
+                    <p class="text-sm font-medium">
+                        <%= error %>
+                    </p>
+                </div>
+                <% } %>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                        <i class="ph ph-identification-card text-indigo-600 text-xl"></i> Detail
+                                        Pengusul & Skema
+                                    </h3>
+                                </div>
+                                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Nama
+                                            Pengusul</p>
+                                        <p class="text-sm font-bold text-gray-800 mt-1">
+                                            <%= proposal.pengusul %>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Skema
+                                            Penelitian</p>
+                                        <p class="text-sm font-bold text-indigo-600 mt-1">
+                                            <%= proposal.skema %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                        <i class="ph ph-coins text-indigo-600 text-xl"></i> Informasi Anggaran
+                                    </h3>
+                                </div>
+                                <div class="p-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div class="p-4 rounded-lg bg-gray-50 border border-gray-100">
+                                            <p class="text-xs font-semibold text-gray-500 uppercase">Dana Diusulkan</p>
+                                            <p class="text-lg font-bold text-gray-800 mt-1">
+                                                <%= proposal.dana %>
+                                            </p>
+                                        </div>
+                                        <div class="p-4 rounded-lg bg-indigo-50 border border-indigo-100">
+                                            <p class="text-xs font-semibold text-indigo-600 uppercase">Pagu Gelombang
+                                            </p>
+                                            <p class="text-lg font-bold text-indigo-700 mt-1">
+                                                <%= paguString %>
+                                            </p>
+                                        </div>
+                                        <div class="p-4 rounded-lg bg-green-50 border border-green-100">
+                                            <p class="text-xs font-semibold text-green-600 uppercase">Status Approval
+                                            </p>
+                                            <p class="text-sm font-medium text-green-700 mt-1 italic">
+                                                <%= proposal.dana_approved ? 'Disetujui: ' + proposal.dana_approved
+                                                    : 'Menunggu Approval' %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 flex items-start gap-2 text-xs text-gray-500 italic">
+                                        <i class="ph ph-info-circle text-base"></i>
+                                        <p>Jika status disetujui, dana akan dipotong langsung dari sisa pagu gelombang
+                                            ini.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- HASIL REVIEW -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                        <i class="ph ph-checks text-indigo-600 text-xl"></i> Hasil Review
+                                    </h3>
+                                </div>
+
+                                <div class="p-6">
+                                    <% if (existingReview) { %>
+                                        <div class="space-y-4 text-sm text-gray-700">
+
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <p class="text-xs text-gray-400">Rekomendasi</p>
+                                                    <p class="font-semibold mt-1">
+                                                        <%= existingReview.rekomendasi || '-' %>
+                                                    </p>
+                                                </div>
+
+                                                <div>
+                                                    <p class="text-xs text-gray-400">Nilai Akhir</p>
+                                                    <p class="font-semibold mt-1">
+                                                        <%= existingReview.nilai_akhir ?? '-' %>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid grid-cols-3 gap-4 text-xs">
+                                                <div>
+                                                    <p class="text-gray-400">Kriteria 1</p>
+                                                    <p class="font-semibold">
+                                                        <%= existingReview.kriteria ? existingReview.kriteria.kriteria1
+                                                            : '-' %>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-gray-400">Kriteria 2</p>
+                                                    <p class="font-semibold">
+                                                        <%= existingReview.kriteria ? existingReview.kriteria.kriteria2
+                                                            : '-' %>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-gray-400">Kriteria 3</p>
+                                                    <p class="font-semibold">
+                                                        <%= existingReview.kriteria ? existingReview.kriteria.kriteria3
+                                                            : '-' %>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <p class="text-xs text-gray-400">Catatan Reviewer</p>
+                                                <p class="mt-1 whitespace-pre-line">
+                                                    <%= existingReview.catatan || '-' %>
+                                                </p>
+                                            </div>
+
+                                            <div class="text-xs text-gray-500">
+                                                Reviewer: <%= existingReview.reviewer || '-' %><br>
+                                                    Tanggal Review:
+                                                    <%= existingReview.tanggal ? new
+                                                        Date(existingReview.tanggal).toLocaleString('id-ID') : '-' %>
+                                            </div>
+
+                                        </div>
+                                        <% } else { %>
+                                            <p class="text-sm text-gray-500 italic">
+                                                Belum ada hasil review.
+                                            </p>
+                                            <% } %>
+                                </div>
+                            </div>
+                            <!-- END HASIL REVIEW -->
+                        </div>
+
+                        <div class="space-y-6">
+                            <div
+                                class="bg-white rounded-xl shadow-lg border border-indigo-200 overflow-hidden ring-4 ring-indigo-50">
+                                <div class="p-6 border-b border-gray-100 bg-white">
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                        <i class="ph ph-signature text-indigo-600 text-xl"></i> Form Verifikasi
+                                    </h3>
+                                </div>
+                                <div class="p-6">
+                                    <form
+                                        action="/admin/proposal/detail/<%= tahun %>/<%= gelombang %>/proposal/<%= proposal.id %>/update"
+                                        method="POST" class="space-y-4">
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Tentukan
+                                                Status</label>
+                                            <select name="status" required
+                                                class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                                                <option value="Diterima" <%=proposal.status==='Diterima' ? 'selected'
+                                                    : '' %>>Diterima</option>
+                                                <option value="Ditolak" <%=proposal.status==='Ditolak' ? 'selected' : ''
+                                                    %>>Ditolak</option>
+                                                <option value="Pending" <%=proposal.status==='Pending' ? 'selected' : ''
+                                                    %>>Pending</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Catatan
+                                                Peninjauan</label>
+                                            <textarea name="note"
+                                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                                                rows="4"
+                                                placeholder="Tulis alasan diterima/ditolak..."><%= existingReview ? existingReview.note || '' : '' %></textarea>
+                                        </div>
+
+                                        <div class="flex flex-col gap-2 pt-2">
+                                            <button type="submit"
+                                                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg text-sm shadow-md shadow-indigo-100 transition-all flex items-center justify-center gap-2">
+                                                <i class="ph ph-check-square-offset text-lg"></i> Simpan Perubahan
+                                            </button>
+                                            <a href="/admin/proposal/detail/<%= tahun %>/<%= gelombang %>"
+                                                class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 rounded-lg text-sm text-center transition-all">
+                                                Batal
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </main>
+    </div>
+
+    <%- include('../../partials/footer') %>

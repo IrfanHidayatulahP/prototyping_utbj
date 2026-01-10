@@ -1,4 +1,5 @@
 // models/reviewer.js
+const ReviewProposal = require('./reviewProposal');
 
 const mockReviewerList = [
     { id: 1, nama: 'Irfan Hidayatulah P', status: 'Aktif', batas_proposal: 8, batas_penelitian: 8 },
@@ -16,4 +17,23 @@ const mockReviewerList = [
 
 exports.getAllReviewers = () => {
     return mockReviewerList;
+};
+
+exports.getReviewerWithLoad = () => {
+    return mockReviewerList.map(reviewer => {
+        const reviews = ReviewProposal.getByReviewerId(reviewer.id);
+
+        const totalProposal = reviews.length;
+        const reviewed = reviews.filter(r => r.status === 'reviewed').length;
+        const pending = reviews.filter(r => r.status === 'assigned').length;
+
+        return {
+            ...reviewer,
+            beban: {
+                total: totalProposal,
+                reviewed,
+                pending
+            }
+        };
+    });
 };

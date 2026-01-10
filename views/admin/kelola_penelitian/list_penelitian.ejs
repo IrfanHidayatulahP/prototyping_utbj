@@ -1,197 +1,279 @@
 <%- include('../../partials/header') %>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-<style>
-    body { font-family: 'Roboto', sans-serif; }
-    .bg-custom-gray { background-color: #F4F5F7; }
-    
-    .dropdown-menu {
-        transition: opacity 0.2s ease, transform 0.2s ease;
-        transform-origin: top left;
-    }
-    .dropdown-menu.hidden {
-        opacity: 0; transform: scale(0.95); pointer-events: none; display: none;
-    }
-    .dropdown-menu.show {
-        display: block; opacity: 1; transform: scale(1); pointer-events: auto;
-    }
-</style>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
 
-<div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-custom-gray">
+        .bg-custom-gray {
+            background-color: #F4F5F7;
+        }
 
-    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 z-20">
-        <button class="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg"><i class="ph ph-list text-2xl"></i></button>
-        <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">Dashboard Admin</h1>
-        <div class="flex items-center gap-4">
-            <div class="text-right hidden sm:block">
-                <p class="text-sm font-medium text-gray-700"><%= typeof user !== 'undefined' ? user.name : 'Administrator' %></p>
-                <p class="text-xs text-gray-500">Super Admin</p>
-            </div>
-            <div class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 shadow-sm"><i class="ph ph-user"></i></div>
-        </div>
-    </header>
+        .dropdown-menu {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform-origin: top left;
+        }
 
-    <main class="flex-1 overflow-y-auto p-4 sm:p-8 pb-32">
-        
-        <div class="mb-6">
-            <nav class="flex mb-2 text-sm text-gray-500">
-                <a href="/admin/penelitian/detail/<%= tahun %>" class="hover:text-indigo-600 flex items-center gap-1">
-                    <i class="ph ph-arrow-left"></i> Kembali ke Gelombang
-                </a>
-            </nav>
-            <h2 class="text-2xl font-bold text-gray-900">Kelola Penelitian</h2>
-        </div>
+        .dropdown-menu.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            display: none;
+        }
 
-        <div class="mb-6 relative inline-block text-left">
-            <button onclick="toggleDropdown()" type="button" class="inline-flex justify-between items-center w-64 px-4 py-2.5 bg-white border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <span><%= currentSkema %></span>
-                <i class="ph ph-caret-down text-lg text-gray-500"></i>
-            </button>
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
 
-            <div id="filter-dropdown" class="dropdown-menu hidden absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
-                <div class="py-1" role="menu" aria-orientation="vertical">
-                    <a href="?skema=Dasar" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900 <%= currentSkema === 'Dasar' ? 'font-bold bg-gray-300' : '' %>">Dasar</a>
-                    <a href="?skema=Terapan" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900 <%= currentSkema === 'Terapan' ? 'font-bold bg-gray-300' : '' %>">Terapan</a>
-                    <a href="?skema=Pengembangan" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900 <%= currentSkema === 'Pengembangan' ? 'font-bold bg-gray-300' : '' %>">Pengembangan</a>
-                    
-                    <div class="border-t border-gray-300 my-1"></div>
-                    
-                    <a href="?skema=Prodi" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900 <%= currentSkema === 'Prodi' ? 'font-bold bg-gray-300' : '' %>">Prodi</a>
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-custom-gray">
+
+        <header
+            class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 z-20">
+            <button class="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg"><i
+                    class="ph ph-list text-2xl"></i></button>
+            <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">Dashboard Admin</h1>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-medium text-gray-700">
+                        <%= typeof user !=='undefined' ? user.name : 'Administrator' %>
+                    </p>
+                    <p class="text-xs text-gray-500">Super Admin</p>
+                </div>
+                <div
+                    class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 shadow-sm">
+                    <i class="ph ph-user"></i>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="bg-white rounded-lg shadow-sm p-6 flex flex-col" style="min-height: 600px;">
-
-            <div class="overflow-x-auto">
-                
-                <% if (currentSkema === 'Prodi') { %>
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="py-3 px-4 w-16 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">No.</th>
-                                <th class="py-3 px-8 text-sm font-semibold text-gray-600 text-center border-r border-gray-200 w-1/3">Prodi</th>
-                                <th class="py-3 px-8 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">Total Proposal</th>
-                                <th class="py-3 px-8 text-sm font-semibold text-gray-600 text-center">Total Dana</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if (typeof penelitianList !== 'undefined' && penelitianList.length > 0) { %>
-                                <% penelitianList.forEach((item, index) => { %>
-                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                                    <td class="py-4 px-4 text-center text-gray-500 text-sm border-r border-gray-200"><%= index + 1 %></td>
-                                    <td class="py-4 px-8 text-center text-gray-800 text-sm border-r border-gray-200"><%= item.prodi %></td>
-                                    <td class="py-4 px-8 text-center text-gray-800 text-sm border-r border-gray-200"><%= item.total_proposal %></td>
-                                    <td class="py-4 px-8 text-center text-gray-800 text-sm"><%= item.total_dana %></td>
-                                </tr>
-                                <% }) %>
-                            <% } else { %>
-                                <tr><td colspan="4" class="text-center py-8 text-gray-400">Data Prodi tidak ditemukan</td></tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-
-                <% } else { %>
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="py-3 px-2 w-12 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">No.</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200 w-1/4">Judul Proposal</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">Nama Pengusul</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">Skema</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">Status</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">Dana</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">Reviewer</th>
-                                <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if (typeof penelitianList !== 'undefined' && penelitianList.length > 0) { %>
-                                <% penelitianList.forEach((item, index) => { %>
-                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                                    <td class="py-4 px-2 text-center text-gray-500 text-sm border-r border-gray-200"><%= index + 1 %></td>
-                                    <td class="py-4 px-4 text-gray-800 text-sm border-r border-gray-200 leading-snug"><%= item.judul %></td>
-                                    <td class="py-4 px-4 text-center text-gray-800 text-sm border-r border-gray-200"><%= item.pengusul %></td>
-                                    <td class="py-4 px-4 text-center text-indigo-600 font-medium text-sm border-r border-gray-200"><%= item.skema %></td>
-                                    <td class="py-4 px-4 text-center text-gray-800 text-sm border-r border-gray-200"><%= item.status %></td>
-                                    <td class="py-4 px-4 text-center text-gray-800 text-sm border-r border-gray-200 whitespace-nowrap"><%= item.dana %></td>
-                                    <td class="py-4 px-4 text-center border-r border-gray-200">
-                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-500 text-xs font-medium py-1.5 px-3 rounded flex items-center gap-2 mx-auto whitespace-nowrap">
-                                            Pilih Reviewer <i class="ph ph-caret-down"></i>
-                                        </button>
-                                    </td>
-                                    <td class="py-4 px-4 text-center">
-                                        <a href="#" class="bg-gray-200 hover:bg-gray-300 text-gray-500 text-xs font-medium py-1.5 px-4 rounded-full no-underline inline-block">Detail</a>
-                                    </td>
-                                </tr>
-                                <% }) %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="8" class="text-center py-12 text-gray-400">
-                                        Tidak ada penelitian untuk skema <strong><%= currentSkema %></strong>.
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                <% } %>
-                
+        <main class="flex-1 overflow-y-auto p-4 sm:p-8 pb-32">
+            <div class="mb-6">
+                <nav class="flex mb-2 text-sm text-gray-500">
+                    <a href="/admin/penelitian/detail/<%= tahun %>"
+                        class="hover:text-indigo-600 flex items-center gap-1">
+                        <i class="ph ph-arrow-left"></i> Kembali ke Gelombang
+                    </a>
+                </nav>
+                <h2 class="text-2xl font-bold text-gray-900">Kelola Penelitian</h2>
             </div>
 
-            <div class="mt-auto pt-4 border-t border-gray-300 text-right">
-                <span class="text-sm font-bold text-gray-800">
-                    <% 
-                        // Fungsi helper untuk menghitung total dana
-                        // Input data berupa string "Rp 100.000.000" -> perlu di-parse jadi angka
-                        let totalDana = 0;
-                        if (typeof penelitianList !== 'undefined' && penelitianList.length > 0) {
-                            totalDana = penelitianList.reduce((acc, item) => {
-                                // Hapus "Rp " dan titik "." untuk jadi angka murni
-                                // Contoh: "Rp 15.000.000" -> 15000000
-                                const danaStr = (currentSkema === 'Prodi') ? item.total_dana : item.dana;
-                                const cleanDana = parseInt(danaStr.replace(/[^0-9]/g, '')) || 0;
-                                return acc + cleanDana;
+            <div class="mb-6 relative inline-block text-left">
+                <button onclick="toggleDropdown()" type="button"
+                    class="inline-flex justify-between items-center w-64 px-4 py-2.5 bg-white border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span>
+                        <%= currentSkema %>
+                    </span>
+                    <i class="ph ph-caret-down text-lg text-gray-500"></i>
+                </button>
+
+                <div id="filter-dropdown"
+                    class="dropdown-menu hidden absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                    <div class="py-1" role="menu">
+                        <a href="?skema=Dasar"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 <%= currentSkema === 'Dasar' ? 'font-bold bg-gray-300' : '' %>">Dasar</a>
+                        <a href="?skema=Terapan"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 <%= currentSkema === 'Terapan' ? 'font-bold bg-gray-300' : '' %>">Terapan</a>
+                        <a href="?skema=Pengembangan"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 <%= currentSkema === 'Pengembangan' ? 'font-bold bg-gray-300' : '' %>">Pengembangan</a>
+                        <div class="border-t border-gray-300 my-1"></div>
+                        <a href="?skema=Prodi"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 <%= currentSkema === 'Prodi' ? 'font-bold bg-gray-300' : '' %>">Prodi</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm p-6 flex flex-col" style="min-height: 600px;">
+                <div class="overflow-x-auto">
+                    <% if (currentSkema==='Prodi' ) { %>
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th
+                                        class="py-3 px-4 w-16 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">
+                                        No.</th>
+                                    <th
+                                        class="py-3 px-8 text-sm font-semibold text-gray-600 text-center border-r border-gray-200 w-1/3">
+                                        Prodi</th>
+                                    <th
+                                        class="py-3 px-8 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">
+                                        Total Proposal</th>
+                                    <th class="py-3 px-8 text-sm font-semibold text-gray-600 text-center">Total Dana
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (typeof penelitianList !=='undefined' && penelitianList.length> 0) { %>
+                                    <% penelitianList.forEach((item, index)=> { %>
+                                        <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                                            <td
+                                                class="py-4 px-4 text-center text-gray-500 text-sm border-r border-gray-200">
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td
+                                                class="py-4 px-8 text-center text-gray-800 text-sm border-r border-gray-200">
+                                                <%= item.prodi %>
+                                            </td>
+                                            <td
+                                                class="py-4 px-8 text-center text-gray-800 text-sm border-r border-gray-200">
+                                                <%= item.total_proposal %>
+                                            </td>
+                                            <td class="py-4 px-8 text-center text-gray-800 text-sm">
+                                                <%= item.total_dana %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="4" class="text-center py-8 text-gray-400">Data Prodi
+                                                        tidak ditemukan</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                        <% } else { %>
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th
+                                            class="py-3 px-2 w-12 text-center text-sm font-semibold text-gray-600 border-r border-gray-200">
+                                            No.</th>
+                                        <th
+                                            class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200 w-1/4">
+                                            Judul Proposal</th>
+                                        <th
+                                            class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">
+                                            Nama Pengusul</th>
+                                        <th
+                                            class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">
+                                            Skema</th>
+                                        <th
+                                            class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">
+                                            Status</th>
+                                        <th
+                                            class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">
+                                            Dana</th>
+                                        <th
+                                            class="py-3 px-4 text-sm font-semibold text-gray-600 text-center border-r border-gray-200">
+                                            Reviewer</th>
+                                        <th class="py-3 px-4 text-sm font-semibold text-gray-600 text-center">Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (typeof penelitianList !=='undefined' && penelitianList.length> 0) { %>
+                                        <% penelitianList.forEach((item, index)=> { %>
+                                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                                                <td
+                                                    class="py-4 px-2 text-center text-gray-500 text-sm border-r border-gray-200">
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td
+                                                    class="py-4 px-4 text-gray-800 text-sm border-r border-gray-200 leading-snug">
+                                                    <%= item.judul %>
+                                                </td>
+                                                <td
+                                                    class="py-4 px-4 text-center text-gray-800 text-sm border-r border-gray-200">
+                                                    <%= item.peneliti %>
+                                                </td>
+                                                <td
+                                                    class="py-4 px-4 text-center text-indigo-600 font-medium text-sm border-r border-gray-200">
+                                                    <%= item.skema %>
+                                                </td>
+                                                <td
+                                                    class="py-4 px-4 text-center text-gray-800 text-sm border-r border-gray-200">
+                                                    <%= item.status %>
+                                                </td>
+                                                <td
+                                                    class="py-4 px-4 text-center text-gray-800 text-sm border-r border-gray-200 whitespace-nowrap">
+                                                    <%= item.dana %>
+                                                </td>
+                                                <td class="py-4 px-4 text-center border-r border-gray-200">
+                                                    <div class="relative inline-block w-full">
+                                                        <select onchange="assignReviewer('<%= item.id %>', this.value)"
+                                                            class="block w-full bg-gray-50 border border-gray-300 text-gray-700 py-1.5 px-3 pr-8 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none cursor-pointer">
+                                                            <option value="" disabled <%=!item.reviewer_id ? 'selected'
+                                                                : '' %>>-- Pilih Reviewer --</option>
+                                                            <% reviewerList.forEach(rev=> { %>
+                                                                <option value="<%= rev.id %>"
+                                                                    <%=(item.reviewer_id==rev.id) ? 'selected' : '' %>>
+                                                                    <%= rev.nama %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+                                                        <div
+                                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                                                            <i class="ph ph-caret-down text-xs"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="py-4 px-4 text-center">
+                                                    <a href="/admin/penelitian/detail/<%= tahun %>/<%= gelombang %>/proposal/<%= item.id %>"
+                                                        class="bg-gray-200 hover:bg-gray-300 text-gray-500 text-xs font-medium py-1.5 px-4 rounded-full inline-block">
+                                                        Detail
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="8" class="text-center py-12 text-gray-400">Tidak
+                                                            ada penelitian untuk skema <%= currentSkema %>.</td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                            <% } %>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-gray-300 text-right">
+                    <span class="text-sm font-bold text-gray-800">
+                        <% let totalSum=0; if (typeof penelitianList !=='undefined' && penelitianList.length> 0) {
+                            totalSum = penelitianList.reduce((acc, item) => {
+                            let danaRaw = (currentSkema === 'Prodi') ? item.total_dana : item.dana;
+                            let cleanNum = parseInt(danaRaw.replace(/[^0-9]/g, '')) || 0;
+                            return acc + cleanNum;
                             }, 0);
-                        }
-                        
-                        // Format kembali ke Rupiah
-                        const formattedTotal = "Rp " + totalDana.toLocaleString('id-ID');
-                    %>
-
-                    <% if (currentSkema === 'Prodi') { %>
-                        Total Dana (Semua Prodi) : <%= formattedTotal %>
-                    <% } else { %>
-                        Total Dana (<%= currentSkema %>) : <%= formattedTotal %>
-                    <% } %>
-                </span>
+                            }
+                            let displayTotal = "Rp " + totalSum.toLocaleString('id-ID');
+                            %>
+                            Total Dana (<%= currentSkema==='Prodi' ? 'Semua Prodi' : currentSkema %>) : <%= displayTotal
+                                    %>
+                    </span>
+                </div>
             </div>
+        </main>
+    </div>
 
-        </div>
-    </main>
-</div>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('filter-dropdown');
+            dropdown.classList.toggle('hidden');
+            dropdown.classList.toggle('show');
+        }
 
-<script>
-    function toggleDropdown() {
-        const dropdown = document.getElementById('filter-dropdown');
-        dropdown.classList.toggle('hidden');
-        dropdown.classList.toggle('show');
-    }
-
-    window.onclick = function(event) {
-        if (!event.target.closest('.relative.inline-block')) {
-            const dropdowns = document.getElementsByClassName("dropdown-menu");
-            for (let i = 0; i < dropdowns.length; i++) {
-                const openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                    openDropdown.classList.add('hidden');
+        window.onclick = function (event) {
+            if (!event.target.closest('.relative.inline-block')) {
+                const dropdown = document.getElementById('filter-dropdown');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                    dropdown.classList.add('hidden');
                 }
             }
         }
-    }
-</script>
 
-<%- include('../../partials/footer') %>
+        function assignReviewer(penelitianId, reviewerId) {
+            if (!reviewerId) return;
+            const reviewerName = event.target.options[event.target.selectedIndex].text;
+            alert(`Berhasil! Penelitian ID ${penelitianId} telah ditugaskan kepada: ${reviewerName}`);
+        }
+    </script>
+
+    <%- include('../../partials/footer') %>

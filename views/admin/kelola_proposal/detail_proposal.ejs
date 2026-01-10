@@ -1,132 +1,174 @@
 <%- include('../../partials/header') %>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-<style>
-    body { font-family: 'Roboto', sans-serif; }
-    .bg-custom-gray { background-color: #F4F5F7; }
-</style>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
 
-<div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-custom-gray">
+        .bg-custom-gray {
+            background-color: #F4F5F7;
+        }
+    </style>
 
-    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 z-20">
-        <button class="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg"><i class="ph ph-list text-2xl"></i></button>
-        <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">Dashboard Admin</h1>
-        <div class="flex items-center gap-4">
-            <div class="text-right hidden sm:block">
-                <p class="text-sm font-medium text-gray-700"><%= typeof user !== 'undefined' ? user.name : 'Administrator' %></p>
-                <p class="text-xs text-gray-500">Super Admin</p>
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-custom-gray">
+
+        <header
+            class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 z-20">
+            <button class="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg"><i
+                    class="ph ph-list text-2xl"></i></button>
+            <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">Dashboard Admin</h1>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-medium text-gray-700">
+                        <%= typeof user !=='undefined' ? user.name : 'Administrator' %>
+                    </p>
+                    <p class="text-xs text-gray-500">Super Admin</p>
+                </div>
+                <div
+                    class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 shadow-sm">
+                    <i class="ph ph-user"></i></div>
             </div>
-            <div class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 shadow-sm"><i class="ph ph-user"></i></div>
-        </div>
-    </header>
+        </header>
 
-    <main class="flex-1 overflow-y-auto p-4 sm:p-8 pb-32">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div>
-                <nav class="flex mb-1 text-sm text-gray-500">
-                    <a href="/admin/proposal" class="hover:text-indigo-600">Kelola Proposal</a>
-                    <span class="mx-2">/</span>
-                    <a href="/admin/proposal/detail/<%= tahun %>" class="hover:text-indigo-600">Detail <%= tahun %></a>
-                    <span class="mx-2">/</span>
-                    <span class="text-gray-900 font-medium">Gelombang</span>
-                </nav>
-                <h2 class="text-2xl font-bold text-gray-900">Gelombang Proposal</h2>
+        <main class="flex-1 overflow-y-auto p-4 sm:p-8 pb-32">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <nav class="flex mb-1 text-sm text-gray-500">
+                        <a href="/admin/proposal" class="hover:text-indigo-600">Kelola Proposal</a>
+                        <span class="mx-2">/</span>
+                        <a href="/admin/proposal/detail/<%= tahun %>" class="hover:text-indigo-600">Detail <%= tahun %>
+                                </a>
+                        <span class="mx-2">/</span>
+                        <span class="text-gray-900 font-medium">Gelombang</span>
+                    </nav>
+                    <h2 class="text-2xl font-bold text-gray-900">Gelombang Proposal - <%= tahun %>
+                    </h2>
+                </div>
+
+                <!-- (Optional) tombol header bisa diarahkan ke gelombang pertama -->
+                <% if (detailList && detailList.length> 0) { %>
+                    <a href="/admin/proposal/detail/<%= tahun %>/<%= detailList[0].slug %>/tambah-penilaian"
+                        class="flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm no-underline">
+                        <i class="ph ph-plus"></i> Tambah Penilaian (contoh)
+                    </a>
+                    <% } %>
             </div>
 
-            <a href="/admin/proposal/detail/<%= tahun %>/<%= gelombangNama %>/tambah-penilaian" class="flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm no-underline">
-                <% if (typeof hasAssessment !== 'undefined' && hasAssessment) { %>
-                    <i class="ph ph-pencil-simple"></i> Edit Penilaian
-                <% } else { %>
-                    <i class="ph ph-plus"></i> Tambah Penilaian
-                <% } %>
-            </a>
-        </div>
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col"
+                style="min-height: 600px;">
 
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col" style="min-height: 600px;">
-            
-            <div class="overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    
-                    <thead>
-                        <tr>
-                            <th class="py-4 px-4 w-16 text-center font-bold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
-                                No.
-                            </th>
-                            <th class="py-4 px-6 font-bold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
-                                Nama Gelombang
-                            </th>
-                            <th class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
-                                Periode Gelombang
-                            </th>
-                            <th class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
-                                Total Proposal
-                            </th>
-                            <th class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300">
-                                Status Penilaian
-                            </th>
-                        </tr>
-                    </thead>
+                <div class="overflow-hidden">
+                    <table class="w-full text-left border-collapse">
 
-                    <tbody>
-                        <% if (typeof detailList !== 'undefined' && detailList.length > 0) { %>
-                            
-                            <% detailList.forEach((item, index) => { %>
+                        <thead>
                             <tr>
-                                <td class="py-5 px-4 text-center text-gray-500 border-b border-gray-200 border-r border-gray-200">
-                                    <%= index + 1 %>
-                                </td>
-                                
-                                <td class="py-5 px-6 text-gray-800 border-b border-gray-200 border-r border-gray-200">
-                                    <% const slug = item.nama.replace(/\s+/g, '-').toLowerCase(); %>
-                                    <a href="/admin/proposal/detail/<%= tahun %>/<%= slug %>/list" class="text-indigo-600 hover:underline font-medium">
-                                        <%= item.nama %>
-                                    </a>
-                                </td>
-                                
-                                <td class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200">
-                                    <%= item.periode %>
-                                </td>
-                                
-                                <td class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200">
-                                    <%= item.total %>
-                                </td>
+                                <th
+                                    class="py-4 px-4 w-12 text-center font-bold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                    No.
+                                </th>
+                                <th
+                                    class="py-4 px-6 font-bold text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                    Nama Gelombang
+                                </th>
+                                <th
+                                    class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                    Periode Gelombang
+                                </th>
+                                <th
+                                    class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                    Total Proposal
+                                </th>
 
-                                <td class="py-5 px-6 text-center border-b border-gray-200">
-                                    <% if (typeof hasAssessment !== 'undefined' && hasAssessment) { %>
-                                        <div class="flex flex-col items-center justify-center gap-1">
-                                            <i class="ph-fill ph-check-circle text-3xl text-green-500"></i>
-                                            <span class="text-xs font-medium text-green-600">Sudah Ada</span>
-                                        </div>
-                                    <% } else { %>
-                                        <div class="flex flex-col items-center justify-center gap-1">
-                                            <i class="ph-fill ph-x-circle text-3xl text-gray-300"></i>
-                                            <span class="text-xs text-gray-400">Belum Ada</span>
-                                        </div>
-                                    <% } %>
-                                </td>
-                            </tr>
-                            <% }) %>
+                                <!-- KOLOM PAGU BARU -->
+                                <th
+                                    class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300 border-r border-gray-200">
+                                    Pagu Gelombang
+                                </th>
 
-                        <% } else { %>
-                            <tr>
-                                <td colspan="5" class="px-6 py-12 text-center text-gray-400">
-                                    Data tidak ditemukan.
-                                </td>
+                                <th class="py-4 px-6 font-bold text-center text-gray-600 border-b-2 border-gray-300">
+                                    Status Penilaian
+                                </th>
                             </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            <% if (typeof detailList !=='undefined' && detailList.length> 0) { %>
+
+                                <% detailList.forEach((item, index)=> { %>
+                                    <tr>
+                                        <td
+                                            class="py-5 px-4 text-center text-gray-500 border-b border-gray-200 border-r border-gray-200">
+                                            <%= index + 1 %>
+                                        </td>
+
+                                        <td
+                                            class="py-5 px-6 text-gray-800 border-b border-gray-200 border-r border-gray-200">
+                                            <a href="/admin/proposal/detail/<%= tahun %>/<%= item.slug %>/list"
+                                                class="text-indigo-600 hover:underline font-medium">
+                                                <%= item.nama %>
+                                            </a>
+                                        </td>
+
+                                        <td
+                                            class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200">
+                                            <%= item.periode %>
+                                        </td>
+
+                                        <td
+                                            class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200">
+                                            <%= item.total %>
+                                        </td>
+
+                                        <!-- TAMPILKAN PAGU (fallback 'Rp 0' jika tidak ada) -->
+                                        <td
+                                            class="py-5 px-6 text-center text-gray-800 border-b border-gray-200 border-r border-gray-200 whitespace-nowrap">
+                                            <%= item.pagu ? item.pagu : 'Rp 0' %>
+                                        </td>
+
+                                        <td class="py-5 px-6 text-center border-b border-gray-200">
+                                            <% if (item.isAssessed) { %>
+                                                <div class="flex flex-col items-center justify-center gap-2">
+                                                    <i class="ph-fill ph-check-circle text-3xl text-green-500"></i>
+                                                    <span class="text-xs font-medium text-green-600">Sudah
+                                                        Dinilai</span>
+                                                    <a href="/admin/proposal/detail/<%= tahun %>/<%= item.slug %>/tambah-penilaian"
+                                                        class="mt-1 text-xs text-indigo-600 hover:underline">Edit
+                                                        Penilaian</a>
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="flex flex-col items-center justify-center gap-2">
+                                                        <i class="ph-fill ph-x-circle text-3xl text-gray-300"></i>
+                                                        <span class="text-xs text-gray-400">Belum Dinilai</span>
+                                                        <a href="/admin/proposal/detail/<%= tahun %>/<%= item.slug %>/tambah-penilaian"
+                                                            class="mt-1 text-xs text-indigo-600 hover:underline">Tambah
+                                                            Penilaian</a>
+                                                    </div>
+                                                    <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="6" class="px-6 py-12 text-center text-gray-400">
+                                                    Data tidak ditemukan.
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-auto border-t border-gray-400 pt-2"></div>
+
             </div>
 
-            <div class="mt-auto border-t border-gray-400 pt-2"></div>
-            
-        </div>
+        </main>
+    </div>
 
-    </main>
-</div>
-
-<%- include('../../partials/footer') %>
+    <%- include('../../partials/footer') %>

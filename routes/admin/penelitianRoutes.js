@@ -9,4 +9,11 @@ router.get('/detail/:tahun/:gelombang/tambah-penilaian', penelitianController.cr
 router.post('/detail/:tahun/:gelombang/store-penilaian', penelitianController.storeAssessment);
 router.get('/detail/:tahun/:gelombang/list', penelitianController.listPenelitian);
 
+// show proposal detail
+router.get('/detail/:tahun/:gelombang/proposal/:id', penelitianController.showProposalDetail);
+
+// update status (POST)
+router.post('/detail/:tahun/:gelombang/proposal/:id/update-status', penelitianController.updateProposalStatus);
+
+
 module.exports = router;

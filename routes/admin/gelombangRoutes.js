@@ -9,6 +9,7 @@ router.get('/', gelombangController.index);
 // Halaman tambah tahun akademik
 router.get('/tambah', gelombangController.create);
 
+
 // Halaman Detail 
 router.get('/detail/:tahun', gelombangController.detail);
 

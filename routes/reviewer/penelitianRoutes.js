@@ -6,6 +6,10 @@ const penelitianController = require('../../controllers/reviewer/penelitianContr
 router.get('/penelitian', penelitianController.listReviewerPenelitian);
 
 // Route Detail Penelitian
-router.get('/penelitian/:id', penelitianController.detailReviewerPenelitian);
+router.get('/penelitian/:id', penelitianController.detailPenelitian);
+
+// Tambahkan di penelitianRoutes.js
+router.get('/penelitian/:id/review', penelitianController.renderReviewForm);
+router.post('/penelitian/:id/review', penelitianController.submitReview);
 
 module.exports = router;

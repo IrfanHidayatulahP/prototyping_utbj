@@ -9,5 +9,7 @@ router.get('/detail/:tahun/:gelombang', proposalController.waveDetail);
 router.get('/detail/:tahun/:gelombang/tambah-penilaian', proposalController.createAssessment);
 router.post('/detail/:tahun/:gelombang/store-penilaian', proposalController.storeAssessment);
 router.get('/detail/:tahun/:gelombang/list', proposalController.listProposals);
+router.get('/detail/:tahun/:gelombang/proposal/:id', proposalController.proposalDetail);
+router.post('/detail/:tahun/:gelombang/proposal/:id/update', proposalController.updateProposalStatus);
 
 module.exports = router;

@@ -1,9 +1,10 @@
 const Penelitian = require('../../models/penelitian');
+const Reviewer = require('../../models/reviewer');
 let completedAssessments = [];
 
 // Halaman Utama Dashboard Penelitian
 exports.index = (req, res) => {
-    
+
     // PERBAIKAN DI SINI:
     // Gunakan 'getAllYears()' sesuai dengan yang ada di model, bukan 'getAll()'
     const listTahun = Penelitian.getAllYears();
@@ -11,7 +12,7 @@ exports.index = (req, res) => {
     res.render('admin/kelola_penelitian/dashboard_kelola_penelitian', {
         title: 'Kelola Penelitian',
         user: req.session.user,
-        active: 'penelitian', 
+        active: 'penelitian',
         tahunList: listTahun
     });
 };
@@ -33,7 +34,7 @@ exports.detail = (req, res) => {
 // Detail Gelombang
 exports.waveDetail = (req, res) => {
     const { tahun, gelombang } = req.params;
-    
+
     // Ambil data detail
     const dataDetail = Penelitian.getWaveDetail(tahun, gelombang);
 
@@ -48,16 +49,16 @@ exports.waveDetail = (req, res) => {
         tahun: tahun,
         gelombangNama: gelombang,
         detailList: dataDetail,
-        
+
         // Kirim status ke View
-        hasAssessment: isAssessed 
+        hasAssessment: isAssessed
     });
 };
 
 // Tampilkan Form Tambah Penilaian
 exports.createAssessment = (req, res) => {
     const { tahun, gelombang } = req.params;
-    
+
     res.render('admin/kelola_penelitian/tambah_penilaian_penelitian', {
         title: 'Tambah Penilaian Penelitian',
         user: req.session.user,
@@ -73,7 +74,7 @@ exports.storeAssessment = (req, res) => {
     const dataPenilaian = req.body;
 
     console.log("=== DATA PENILAIAN PENELITIAN DISIMPAN ===");
-    
+
     // 1. TANDAI BAHWA GELOMBANG INI SUDAH DINILAI
     const uniqueKey = `${tahun}-${gelombang}`;
     if (!completedAssessments.includes(uniqueKey)) {
@@ -87,12 +88,15 @@ exports.storeAssessment = (req, res) => {
 // List Penelitian (Tabel Panjang dengan Filter)
 exports.listPenelitian = (req, res) => {
     const { tahun, gelombang } = req.params;
-    
-    // 1. Ambil filter dari URL, default 'Dasar'
+
+    // 2. Ambil filter dari URL, default 'Dasar'
     const currentSkema = req.query.skema || 'Dasar';
 
-    // 2. Ambil data dari Model
+    // 3. Ambil data dari Model
     const dataList = Penelitian.getPenelitianList(tahun, gelombang, currentSkema);
+
+    // 4. Ambil data Reviewer untuk dropdown
+    const allReviewers = Reviewer.getAllReviewers();
 
     res.render('admin/kelola_penelitian/list_penelitian', {
         title: 'Daftar Penelitian',
@@ -100,7 +104,108 @@ exports.listPenelitian = (req, res) => {
         active: 'penelitian',
         tahun: tahun,
         gelombang: gelombang,
-        penelitianList: dataList, // Mengirim data ke view
+        penelitianList: dataList,
+        reviewerList: allReviewers, // 5. Kirim data reviewer ke view
         currentSkema: currentSkema
+    });
+};
+
+exports.showProposalDetail = (req, res) => {
+    const { tahun, gelombang, id } = req.params;
+
+    const proposal = Penelitian.findById(id);
+    if (!proposal) {
+        return res.status(404).render('errors/404', {
+            message: 'Proposal tidak ditemukan'
+        });
+    }
+
+    // Ambil hasil review (jika ada)
+    const review = Penelitian.getReviewByPenelitianId(id);
+
+    // === LOGIKA OTOMATIS STATUS ===
+    const hasLaporan =
+        (proposal.laporan_kemajuan && proposal.laporan_kemajuan.trim() !== '') ||
+        (proposal.laporan_akhir && proposal.laporan_akhir.trim() !== '');
+
+    const hasLuaran =
+        proposal.luaran && proposal.luaran.trim() !== '';
+
+    let autoStatus = proposal.status;
+
+    // 3. Jika tidak ada laporan & luaran → tidak selesai
+    if (!hasLaporan && !hasLuaran) {
+        autoStatus = 'tidak_selesai';
+    }
+
+    // 4. Jika tidak ada luaran → tidak bisa selesai tuntas
+    if (!hasLuaran && autoStatus === 'selesai_tuntas') {
+        autoStatus = 'selesai_tidak_tuntas';
+    }
+
+    res.render('admin/kelola_penelitian/detail_penelitian_item', {
+        title: `Detail Proposal - ${proposal.judul}`,
+        user: req.session.user,
+        active: 'penelitian',
+        tahun,
+        gelombangNama: gelombang,
+        proposal: { ...proposal, status: autoStatus },
+        review
+    });
+};
+
+exports.updateProposalStatus = (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+        return res.status(400).json({
+            success: false,
+            message: 'Status tidak dikirim. Pastikan request mengirimkan field "status".'
+        });
+    }
+
+    const proposal = Penelitian.findById(id);
+    if (!proposal) {
+        return res.status(404).json({
+            success: false,
+            message: 'Proposal tidak ditemukan'
+        });
+    }
+
+    const hasLaporan =
+        (proposal.laporan_kemajuan && proposal.laporan_kemajuan.trim() !== '') ||
+        (proposal.laporan_akhir && proposal.laporan_akhir.trim() !== '');
+
+    const hasLuaran =
+        proposal.luaran && proposal.luaran.trim() !== '';
+
+    // 3. Jika tidak ada laporan & luaran → tidak selesai
+    if (!hasLaporan && !hasLuaran) {
+        return res.status(400).json({
+            success: false,
+            message: 'Tidak ada laporan dan luaran. Status otomatis: Tidak Selesai'
+        });
+    }
+
+    // 4. Jika tidak ada luaran → tidak boleh selesai tuntas
+    if (status === 'selesai_tuntas' && !hasLuaran) {
+        return res.status(400).json({
+            success: false,
+            message: 'Tidak bisa Selesai Tuntas karena tidak ada luaran'
+        });
+    }
+
+    const ok = Penelitian.updateStatusById(id, status);
+    if (!ok) {
+        return res.status(500).json({
+            success: false,
+            message: 'Gagal menyimpan status'
+        });
+    }
+
+    res.json({
+        success: true,
+        message: 'Status penelitian berhasil diperbarui'
     });
 };

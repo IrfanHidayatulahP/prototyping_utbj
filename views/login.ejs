@@ -1,81 +1,147 @@
-<div class="bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
-    <!-- Left: branding (hidden on mobile) -->
-    <div class="hidden md:flex flex-col justify-center p-10 bg-gradient-to-br from-indigo-700 to-indigo-500 text-white">
-        <div class="flex items-center gap-3 mb-6">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                <rect x="2" y="3" width="20" height="18" rx="3" stroke="white" stroke-width="1.5" />
-                <path d="M6 8h12M6 12h12M7 16h10" stroke="white" stroke-width="1.2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
-            <div>
-                <h2 class="text-2xl font-semibold">Universitas Tunas Bangsa Jaya</h2>
-                <p class="text-sm opacity-90">Sistem Pengajuan Proposal Penelitian</p>
-            </div>
-        </div>
-        <div class="mt-4 text-sm leading-relaxed">
-            <p class="mb-3">Masuk untuk mengajukan atau meninjau proposal penelitian, mengunggah laporan, dan
-                melihat status penelitian.</p>
-            <ul class="list-disc pl-5 opacity-95">
-                <li>Pengajuan proposal (Dosen)</li>
-                <li>Review proposal (Reviewer)</li>
-                <li>Manajemen gelombang & laporan (Admin)</li>
-            </ul>
-        </div>
-        <div class="mt-auto opacity-90 text-xs">UTBJ • Final Project 2025/2026</div>
-    </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Universitas Tunas Bangsa Jaya</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
+    <style>
+        body { font-family: 'Roboto', sans-serif; }
+        .bg-custom-gray { background-color: #F4F5F7; }
+        
+        /* Animasi halus untuk input */
+        input, select {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-custom-gray min-h-screen flex items-center justify-center p-4">
 
-    <!-- Right: form -->
-    <div class="p-8 md:p-10">
-        <h3 class="text-lg font-medium text-gray-800 mb-2">Selamat datang kembali</h3>
-        <p class="text-sm text-gray-500 mb-6">Masukkan kredensial Anda untuk melanjutkan.</p>
-
-
-        <form action="/login" method="post" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email atau NIDN</label>
-                <input name="identifier" type="text" placeholder="contoh@utbj.ac.id atau 12345678"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-            </div>
-
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 max-w-4xl w-full border border-gray-100">
+        
+        <div class="hidden lg:flex flex-col justify-between p-12 bg-gradient-to-br from-indigo-700 to-indigo-600 text-white relative overflow-hidden">
+            
+            <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-5"></div>
+            <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-40 h-40 rounded-full bg-white opacity-5"></div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Kata sandi</label>
-                <input name="password" type="password" placeholder="Masukkan kata sandi"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-            </div>
-
-
-            <div class="flex gap-3 items-center">
-                <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Peran</label>
-                    <select name="role"
-                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300">
-                        <option value="dosen">Dosen</option>
-                        <option value="reviewer">Reviewer</option>
-                        <option value="admin">Admin</option>
-                    </select>
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/20">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-white">
+                            <rect x="2" y="3" width="20" height="18" rx="3" stroke="currentColor" stroke-width="2" />
+                            <path d="M6 8h12M6 12h12M7 16h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold tracking-wide">UTBJ</h1>
+                        <p class="text-xs text-indigo-100 uppercase tracking-wider">Research System</p>
+                    </div>
                 </div>
 
+                <h2 class="text-3xl font-bold mb-4 leading-tight">Sistem Pengajuan<br>Proposal Penelitian</h2>
+                <p class="text-indigo-100 text-sm leading-relaxed opacity-90">
+                    Platform terintegrasi untuk pengelolaan penelitian akademik di Universitas Tunas Bangsa Jaya. Efisien, Transparan, dan Akuntabel.
+                </p>
+            </div>
 
-                <div class="flex items-center gap-2">
-                    <input id="remember" type="checkbox" name="remember" class="h-4 w-4" />
-                    <label for="remember" class="text-sm text-gray-600">Ingat saya</label>
+            <div class="mt-8">
+                <div class="flex items-center gap-2 text-xs text-indigo-200 font-medium">
+                    <i class="ph-fill ph-shield-check text-lg"></i>
+                    <span>Secure Access • v1.0.0</span>
                 </div>
             </div>
+        </div>
 
 
-            <div class="flex items-center justify-between">
-                <button type="submit"
-                    class="inline-flex items-center justify-center gap-2 px-5 py-2 bg-indigo-600 text-white rounded-lg font-semibold shadow-sm hover:bg-indigo-700">Masuk</button>
-                <a href="#" class="text-sm text-indigo-600 hover:underline">Lupa kata sandi?</a>
+        <div class="p-8 md:p-12 flex flex-col justify-center">
+            
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Selamat Datang Kembali</h3>
+                <p class="text-sm text-gray-500">Silakan masuk ke akun Anda untuk melanjutkan.</p>
             </div>
 
+            <form action="/login" method="post" class="space-y-5">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Email atau NIDN</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i class="ph ph-user text-xl"></i>
+                        </div>
+                        <input name="identifier" type="text" placeholder="contoh@utbj.ac.id" required
+                            class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white placeholder-gray-400 block" />
+                    </div>
+                </div>
 
-            <div class="pt-4 border-t mt-2">
-                <p class="text-sm text-gray-600">Belum punya akun? <a href="#"
-                        class="text-indigo-600 font-medium hover:underline">Daftar sebagai dosen</a></p>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Kata Sandi</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i class="ph ph-lock-key text-xl"></i>
+                        </div>
+                        <input name="password" type="password" placeholder="••••••••" required
+                            class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white placeholder-gray-400 block" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Masuk Sebagai</label>
+                        <div class="relative">
+                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="ph ph-briefcase text-xl"></i>
+                            </div>
+                            <select name="role" class="w-full pl-10 pr-8 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white appearance-none cursor-pointer">
+                                <option value="dosen">Dosen</option>
+                                <option value="reviewer">Reviewer</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500">
+                                <i class="ph-bold ph-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-end pb-3 sm:pb-0 sm:justify-end">
+                         <div class="flex items-center">
+                            <input id="remember" type="checkbox" name="remember" class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 cursor-pointer">
+                            <label for="remember" class="ml-2 text-sm font-medium text-gray-600 cursor-pointer select-none">Ingat saya</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit"
+                        class="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-3 text-center shadow-lg shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5">
+                        Masuk ke Dashboard
+                    </button>
+                </div>
+
+                <div class="flex items-center justify-between mt-4">
+                    <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline">Lupa kata sandi?</a>
+                    <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Bantuan</a>
+                </div>
+
+            </form>
+
+            <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+                <p class="text-sm text-gray-500">
+                    Belum memiliki akun? 
+                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 hover:underline">Daftar Dosen Baru</a>
+                </p>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+    
+    <div class="absolute bottom-4 text-center w-full text-xs text-gray-400">
+        &copy; 2026 Universitas Tunas Bangsa Jaya. All rights reserved.
+    </div>
+
+</body>
+</html>

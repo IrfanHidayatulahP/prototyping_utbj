@@ -2,241 +2,246 @@
 
     <style>
         body {
-            background: #f4f4f4;
+            background: #e6e6e6;
             font-family: 'Inter', sans-serif;
         }
 
-        .container {
+        .detail-wrapper {
             max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
+            margin: 0 auto;
+            padding: 32px 20px;
         }
 
-        /* Header Section */
-        .header-nav {
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            row-gap: 16px;
+            font-size: 14px;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .value {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .report-box {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .file-link {
+            text-decoration: none;
+            color: #2b6cb0;
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .file-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-file {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .desc-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
 
         .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #fff;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            color: #4a5568;
             text-decoration: none;
-            color: #666;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
             transition: 0.2s;
         }
 
         .btn-back:hover {
-            color: #000;
-        }
-
-        .btn-back i {
-            font-size: 20px;
-            margin-right: 5px;
-        }
-
-        /* Card Style */
-        .detail-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .card-header {
-            background: #fff;
-            padding: 30px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .badge-skema {
-            background: #eef2ff;
-            color: #4338ca;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .main-title {
-            font-size: 24px;
-            margin-top: 15px;
-            color: #111;
-            line-height: 1.4;
-        }
-
-        .card-body {
-            padding: 30px;
-        }
-
-        /* Grid Information */
-        .info-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .info-group {
-            margin-bottom: 20px;
-        }
-
-        .label {
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 6px;
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .value {
-            font-size: 16px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .dana-box {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
-        .dana-box .value {
-            color: #166534;
-            font-size: 20px;
-        }
-
-        /* Status Style */
-        .status-pending {
-            color: #b45309;
-            background: #fffbeb;
-            padding: 4px 10px;
-            border-radius: 4px;
-        }
-
-        /* Footer/Action */
-        .card-footer {
-            background: #fafafa;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-action {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            font-size: 14px;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .btn-outline {
-            border: 1px solid #ddd;
-            background: #fff;
-            color: #444;
-        }
-
-        .btn-primary {
-            background: #2563eb;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
+            background: #f7fafc;
         }
     </style>
 
-    <div class="container">
-        <div class="header-nav">
-            <a href="/reviewer/penelitian" class="btn-back">
-                <i class="bx bx-arrow-back"></i> Kembali ke Daftar
-            </a>
-        </div>
+    <div class="detail-wrapper">
+        <a href="/penelitian" class="btn-back" style="margin-bottom: 20px;">← Kembali ke Daftar</a>
 
-        <div class="detail-card">
-            <div class="card-header">
-                <span class="badge-skema">Skema: <%= p.skema %></span>
-                <h1 class="main-title">
-                    <%= p.judul %>
-                </h1>
-            </div>
+        <h1 class="page-title">Detail Laporan Penelitian</h1>
 
-            <div class="card-body">
-                <div class="info-section">
-                    <div>
-                        <div class="info-group">
-                            <span class="label">Nama Pengusul / Ketua Peneliti</span>
-                            <div class="value">
-                                <%= p.pengusul %>
-                            </div>
-                        </div>
-
-                        <div class="info-group">
-                            <span class="label">Status Usulan</span>
-                            <div class="value">
-                                <span class="status-pending">
-                                    <%= p.status %>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="info-group">
-                            <span class="label">ID Penelitian</span>
-                            <div class="value"><%= p.id.toString().padStart(4, '0' ) %>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="info-group">
-                            <span class="label">Total Usulan Dana</span>
-                            <div class="dana-box">
-                                <div class="value">
-                                    <%= p.dana %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-group">
-                            <span class="label">Dokumen Pendukung</span>
-                            <div class="value">
-                                <a href="#"
-                                    style="color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 5px;">
-                                    <i class="bx bxs-file-pdf"></i> Download Proposal.pdf
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <div class="card">
+            <div class="info-grid">
+                <div class="label">Judul Penelitian</div>
+                <div class="value" style="font-weight: 700; font-size: 16px;">
+                    <%= penelitian.judul %>
                 </div>
 
-                <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                <div class="label">Tim Peneliti</div>
+                <div class="value">
+                    <%= penelitian.peneliti %>
+                </div>
 
-                <div class="info-group">
-                    <span class="label">Abstrak / Deskripsi Singkat</span>
-                    <div class="value" style="font-weight: 400; line-height: 1.6; color: #555;">
-                        Penelitian ini berfokus pada <%= p.judul %> yang diusulkan oleh <%= p.pengusul %>.
-                                Tujuannya adalah untuk memberikan kontribusi nyata dalam bidang terkait melalui skema
-                                <%= p.skema %>.
-                                    Detail teknis dan metodologi penelitian tercantum di dalam dokumen proposal yang
-                                    telah diunggah.
+                <div class="label">Skema Penelitian</div>
+                <div class="value"><span class="status-badge">
+                        <%= penelitian.skema %>
+                    </span></div>
+
+                <div class="label">Bidang Penelitian</div>
+                <div class="value">
+                    <%= penelitian.bidang %>
+                </div>
+
+                <div class="label">Dana Disetujui</div>
+                <div class="value"><strong>Rp <%= penelitian.dana.toLocaleString('id-ID') %></strong></div>
+
+                <div class="label">Usulan Luaran</div>
+                <div class="value">
+                    <%= penelitian.luaran %>
+                </div>
+
+                <div class="label">Status Saat Ini</div>
+                <div class="value"><span class="status-badge" style="background: #c6f6d5; color: #22543d;">
+                        <%= penelitian.status %>
+                    </span></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 15px;">Dokumen Laporan</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <small class="label">Laporan Kemajuan</small>
+                    <div class="report-box">
+                        <% if (penelitian.laporan_kemajuan) { %>
+                            <a href="<%= penelitian.laporan_kemajuan %>" class="file-link" target="_blank">
+                                <i class='bx bxs-file-pdf' style="font-size: 20px; color: #e53e3e;"></i> Lihat Laporan
+                                Kemajuan
+                            </a>
+                            <% } else { %>
+                                <span class="no-file">Belum diunggah</span>
+                                <% } %>
+                    </div>
+                </div>
+                <div>
+                    <small class="label">Laporan Akhir</small>
+                    <div class="report-box">
+                        <% if (penelitian.laporan_akhir) { %>
+                            <a href="<%= penelitian.laporan_akhir %>" class="file-link" target="_blank">
+                                <i class='bx bxs-file-pdf' style="font-size: 20px; color: #e53e3e;"></i> Lihat Laporan
+                                Akhir
+                            </a>
+                            <% } else { %>
+                                <span class="no-file">Belum diunggah</span>
+                                <% } %>
                     </div>
                 </div>
             </div>
 
-            <div class="card-footer">
-                <a href="#" class="btn-action btn-outline">Tandai Revisi</a>
-                <a href="#" class="btn-action btn-primary">Beri Penilaian (Score)</a>
+            <div class="desc-section">
+                <h3 style="margin-bottom: 10px;">Deskripsi Singkat</h3>
+                <p class="value" style="text-align: justify;">
+                    <%= penelitian.deskripsi %>
+                </p>
             </div>
         </div>
-    </div>
+        <% if (locals.review) { %>
+            <div class="card" style="border-left: 5px solid #38a169;">
+                <h3 style="margin-bottom: 15px; color: #2f855a; display: flex; align-items: center; gap: 10px;">
+                    <i class='bx bx-bar-chart-alt-2'></i> Hasil Penilaian Monitoring (Monev)
+                </h3>
 
-    <%- include('../../partials/footer.ejs') %>
+                <div style="display: grid; grid-template-columns: 1fr 200px; gap: 20px;">
+                    <div>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #eee;">
+                            <tr>
+                                <td style="padding: 10px;">Kesesuaian Pelaksanaan (30%)</td>
+                                <td style="font-weight: bold; text-align: right;">
+                                    <%= review.kriteria1 %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">Capaian Luaran (40%)</td>
+                                <td style="font-weight: bold; text-align: right;">
+                                    <%= review.kriteria2 %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">Realisasi Dana (30%)</td>
+                                <td style="font-weight: bold; text-align: right;">
+                                    <%= review.kriteria3 %>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 15px;">
+                            <small class="label">Catatan Reviewer:</small>
+                            <div
+                                style="background: #f0fff4; padding: 12px; border-radius: 8px; border: 1px solid #c6f6d5; margin-top: 5px; font-style: italic;">
+                                "<%= review.catatan %>"
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        style="text-align: center; background: #f0fdf4; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <span style="font-size: 12px; color: #2f855a; font-weight: 600;">SKOR AKHIR</span>
+                        <div style="font-size: 48px; font-weight: 800; color: #2f855a;">
+                            <%= review.totalSkor %>
+                        </div>
+                        <span class="status-badge" style="background: #2f855a; color: #fff; margin-top: 10px;">
+                            <%= review.rekomendasi %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <% if (locals.review) { %>
+                        <a href="/reviewer/penelitian/<%= penelitian.id %>/review" class="btn-back"
+                            style="background: #edf2f7;">Edit Penilaian</a>
+                        <% } else { %>
+                            <a href="/reviewer/penelitian/<%= penelitian.id %>/review" class="btn-back"
+                                style="background: #2b6cb0; color: white; border: none;">Beri Penilaian</a>
+                            <% } %>
+                </div>
+
+    </div> <%- include('../../partials/footer.ejs') %>

@@ -2,8 +2,8 @@
 
     <style>
         /* ===============================
-   PROPOSAL PAGE STYLE
-   =============================== */
+       PROPOSAL PAGE STYLE
+       =============================== */
         body {
             background: #e6e6e6;
             font-family: 'Inter', sans-serif;
@@ -22,12 +22,21 @@
         }
 
         /* ===============================
-   HEADER
-   =============================== */
+       HEADER & TOOLBAR
+       =============================== */
         .page-title {
             font-size: 26px;
             font-weight: 600;
             margin-bottom: 16px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .search-bar {
@@ -37,7 +46,7 @@
             border-radius: 30px;
             padding: 10px 16px;
             width: 320px;
-            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .search-bar input {
@@ -45,20 +54,29 @@
             outline: none;
             flex: 1;
             font-size: 14px;
+            margin-left: 8px;
         }
 
-        .search-bar i {
-            color: #777;
+        .filter-dropdown select {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
         }
 
         /* ===============================
-   TABLE
-   =============================== */
+       TABLE
+       =============================== */
         .table-container {
             background: #fff;
             border-radius: 12px;
             padding: 16px;
             overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         table {
@@ -74,8 +92,8 @@
         th,
         td {
             border: 1px solid #ddd;
-            padding: 10px 12px;
-            vertical-align: top;
+            padding: 12px;
+            vertical-align: middle;
         }
 
         th {
@@ -84,116 +102,168 @@
             white-space: nowrap;
         }
 
-        td {
-            text-align: left;
-        }
-
         td.center {
             text-align: center;
         }
 
-        /* wrap panjang */
         .wrap {
-            max-width: 260px;
+            max-width: 300px;
             white-space: normal;
+            line-height: 1.5;
         }
 
         /* ===============================
-   ACTION BUTTON
-   =============================== */
+       BADGE & BUTTONS
+       =============================== */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #ebf8ff;
+            color: #2b6cb0;
+            border: 1px solid #bee3f8;
+        }
+
         .btn-detail {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
-            border: 1px solid #aaa;
+            border: 1px solid #2b6cb0;
             background: #fff;
+            color: #2b6cb0;
             font-size: 12px;
-            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
         }
 
         .btn-detail:hover {
-            background: #f0f0f0;
+            background: #2b6cb0;
+            color: #fff;
         }
 
-        /* ===============================
-   FOOTER
-   =============================== */
         .table-footer {
             text-align: right;
-            margin-top: 8px;
+            margin-top: 15px;
             font-size: 13px;
-            color: #444;
+            color: #666;
         }
     </style>
 
     <div class="proposal-page">
         <div class="proposal-wrapper">
 
-            <h1 class="page-title">Proposal</h1>
+            <h1 class="page-title">Daftar Proposal Reviewer</h1>
 
-            <!-- SEARCH -->
-            <div class="search-bar">
-                <i class="bx bx-search"></i>
-                <input type="text" id="searchInput" placeholder="Cari Proposal">
+            <div class="toolbar">
+                <div class="search-bar">
+                    <i class="bx bx-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari judul, peneliti, atau prodi...">
+                </div>
+
+                <div class="filter-dropdown">
+                    <form action="/reviewer/proposal" method="GET" id="filterForm">
+                        <select name="skema" onchange="document.getElementById('filterForm').submit()">
+                            <option value="Dasar" <%=currentFilter==='Dasar' ? 'selected' : '' %>>Skema Dasar</option>
+                            <option value="Terapan" <%=currentFilter==='Terapan' ? 'selected' : '' %>>Skema Terapan
+                            </option>
+                            <option value="Pengembangan" <%=currentFilter==='Pengembangan' ? 'selected' : '' %>>Skema
+                                Pengembangan</option>
+                            <option value="Prodi" <%=currentFilter==='Prodi' ? 'selected' : '' %>>Berdasarkan Prodi
+                            </option>
+                        </select>
+                    </form>
+                </div>
             </div>
 
-            <!-- TABLE -->
             <div class="table-container">
                 <table id="proposalTable">
                     <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Judul Penelitian</th>
-                            <th>Nama Tim Peneliti</th>
-                            <th>Skema Penelitian</th>
-                            <th>Bidang Penelitian</th>
-                            <th>Usulan Dana</th>
-                            <th>Deskripsi Singkat</th>
-                            <th>File Proposal</th>
-                            <th>Usulan Luaran</th>
-                            <th>Actions</th>
-                        </tr>
+                        <% if (currentFilter==='Prodi' ) { %>
+                            <tr>
+                                <th style="width: 50px;">No.</th>
+                                <th>Program Studi</th>
+                                <th>Total Proposal</th>
+                                <th>Total Dana Terdistribusi</th>
+                            </tr>
+                            <% } else { %>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Judul Penelitian</th>
+                                    <th>Nama Tim Peneliti</th>
+                                    <th>Skema</th>
+                                    <th>Usulan Dana</th>
+                                    <th>File</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                                <% } %>
                     </thead>
                     <tbody>
                         <% proposals.forEach((p, index)=> { %>
-                            <tr>
-                                <td class="center">
-                                    <%= index + 1 %>
-                                </td>
-                                <td class="wrap">
-                                    <%= p.judul %>
-                                </td>
-                                <td>
-                                    <%= p.peneliti %>
-                                </td>
-                                <td>
-                                    <%= p.skema %>
-                                </td>
-                                <td>
-                                    <%= p.bidang %>
-                                </td>
-                                <td>Rp <%= p.dana.toLocaleString('id-ID') %>
-                                </td>
-                                <td class="wrap">
-                                    <%= p.deskripsi %>
-                                </td>
-                                <td>
-                                    <a href="<%= p.file %>" target="_blank">
-                                        <%= p.fileName %>
-                                    </a>
-                                </td>
-                                <td>
-                                    <%= p.luaran %>
-                                </td>
-                                <td class="center">
-                                    <a href="/reviewer/proposal/<%= p.id %>" class="btn-detail">Detail</a>
-                                </td>
-                            </tr>
-                            <% }) %>
+                            <% if (currentFilter==='Prodi' ) { %>
+                                <tr>
+                                    <td class="center">
+                                        <%= index + 1 %>
+                                    </td>
+                                    <td style="font-weight: 600;">
+                                        <%= p.prodi %>
+                                    </td>
+                                    <td class="center">
+                                        <%= p.total_proposal %> Proposal
+                                    </td>
+                                    <td>
+                                        <%= p.total_dana %>
+                                    </td>
+                                </tr>
+                                <% } else { %>
+                                    <tr>
+                                        <td class="center">
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td class="wrap"><strong>
+                                                <%= p.judul %>
+                                            </strong></td>
+                                        <td>
+                                            <%= p.pengusul %>
+                                        </td>
+                                        <td class="center">
+                                            <%= p.skema %>
+                                        </td>
+                                        <td style="white-space: nowrap;">
+                                            Rp <%= p.dana.toLocaleString('id-ID') %>
+                                        </td>
+                                        <td class="center">
+                                            <a href="<%= p.file %>" target="_blank" title="Lihat PDF"
+                                                style="color: #e53e3e; font-size: 18px;">
+                                                <i class="bx bxs-file-pdf"></i>
+                                            </a>
+                                        </td>
+                                        <td class="center">
+                                            <span class="badge">
+                                                <%= p.status %>
+                                            </span>
+                                        </td>
+                                        <td class="center">
+                                            <a href="/reviewer/proposal/<%= p.id %>" class="btn-detail">Detail</a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% }) %>
+
+                                            <% if (proposals.length===0) { %>
+                                                <tr>
+                                                    <td colspan="8" class="center" style="padding: 40px; color: #999;">
+                                                        Tidak ada data proposal untuk filter ini.
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                     </tbody>
                 </table>
 
                 <div class="table-footer">
-                    Total Proposal : <strong>
+                    Total Data: <strong>
                         <%= proposals.length %>
                     </strong>
                 </div>
@@ -204,7 +274,7 @@
 
     <script>
         /* ===============================
-           SEARCH FILTER
+           SEARCH FILTER LOGIC
            =============================== */
         const searchInput = document.getElementById('searchInput');
         const rows = document.querySelectorAll('#proposalTable tbody tr');
@@ -212,9 +282,9 @@
         searchInput.addEventListener('keyup', () => {
             const value = searchInput.value.toLowerCase();
             rows.forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(value)
-                    ? ''
-                    : 'none';
+                // Cek apakah teks baris mengandung nilai pencarian
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(value) ? '' : 'none';
             });
         });
     </script>
