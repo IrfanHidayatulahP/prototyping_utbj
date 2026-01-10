@@ -8,14 +8,12 @@ const flash = require('connect-flash');
 // Import Rute
 const authRoutes = require('./routes/authRoutes');  
 const proposalRoutes = require('./routes/reviewer/proposalRoutes');
-<<<<<<< HEAD
 const dosenRoutes = require('./routes/dosen/dosenRoutes');
-=======
 const adminGelombangRoutes = require('./routes/admin/gelombangRoutes');
 const adminProposalRoutes = require('./routes/admin/proposalRoutes');
 const adminPenelitianRoutes = require('./routes/admin/penelitianRoutes');
 const adminReviewerRoutes = require('./routes/admin/reviewerRoutes');
->>>>>>> b84df3a2a9f9150d9d7fc6f9ff67135bbc2c996b
+const penelitianRoutes = require('./routes/reviewer/penelitianRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -54,6 +52,7 @@ app.use((req, res, next) => {
 app.use('/', authRoutes);
 app.use('/reviewer', proposalRoutes);
 app.use('/dosen', dosenRoutes);
+app.use('/reviewer', penelitianRoutes);
 
 app.use('/admin/gelombang', isAdmin, adminGelombangRoutes);
 app.use('/admin/proposal', isAdmin, adminProposalRoutes);

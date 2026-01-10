@@ -20,21 +20,21 @@ const mockWaveDetail = [
 // Data Dummy List Proposal
 const mockProposalList = [
     // --- SKEMA DASAR (5 Data) ---
-    { id: 1, judul: 'Hubungan Stres dengan Perilaku Merokok Mahasiswa', pengusul: 'Ichsan Helmi', skema: 'Dasar', status: 'Pending', dana: 'Rp 7.000.000' },
-    { id: 2, judul: 'Analisis Dampak AI terhadap Pembelajaran Mahasiswa', pengusul: 'Budi Santoso', skema: 'Dasar', status: 'Pending', dana: 'Rp 7.000.000' },
+    { id: 1, reviewer_id: 1, judul: 'Hubungan Stres dengan Perilaku Merokok Mahasiswa', pengusul: 'Ichsan Helmi', skema: 'Dasar', status: 'Pending', dana: 'Rp 7.000.000' },
+    { id: 2, reviewer_id: 1, judul: 'Analisis Dampak AI terhadap Pembelajaran Mahasiswa', pengusul: 'Budi Santoso', skema: 'Dasar', status: 'Pending', dana: 'Rp 7.000.000' },
     { id: 3, judul: 'Pola Komunikasi Interpersonal Mahasiswa Rantau', pengusul: 'Anisa Rahma', skema: 'Dasar', status: 'Pending', dana: 'Rp 6.500.000' },
     { id: 4, judul: 'Efektivitas Metode Pembelajaran Hybrid Pasca Pandemi', pengusul: 'Dimas Anggara', skema: 'Dasar', status: 'Pending', dana: 'Rp 7.500.000' },
     { id: 5, judul: 'Pengaruh Media Sosial TikTok terhadap Konsentrasi Belajar', pengusul: 'Fani Amalia', skema: 'Dasar', status: 'Pending', dana: 'Rp 6.000.000' },
 
     // --- SKEMA TERAPAN (5 Data) ---
-    { id: 6, judul: 'Rancang Bangun Alat Pakan Ikan Otomatis Berbasis IoT', pengusul: 'Siti Aminah', skema: 'Terapan', status: 'Pending', dana: 'Rp 12.000.000' },
+    { id: 6, reviewer_id: 1, judul: 'Rancang Bangun Alat Pakan Ikan Otomatis Berbasis IoT', pengusul: 'Siti Aminah', skema: 'Terapan', status: 'Pending', dana: 'Rp 12.000.000' },
     { id: 7, judul: 'Implementasi Smart Farming untuk Pertanian Cabai', pengusul: 'Rudi Hartono', skema: 'Terapan', status: 'Pending', dana: 'Rp 15.000.000' },
     { id: 8, judul: 'Sistem Deteksi Dini Kebakaran Hutan Menggunakan LoraWAN', pengusul: 'Eko Prasetyo', skema: 'Terapan', status: 'Pending', dana: 'Rp 14.500.000' },
     { id: 9, judul: 'Aplikasi Manajemen Sampah Desa Berbasis Android', pengusul: 'Rina Wati', skema: 'Terapan', status: 'Pending', dana: 'Rp 11.000.000' },
     { id: 10, judul: 'Mesin Pengolah Limbah Plastik Menjadi Paving Block', pengusul: 'Agus Setiawan', skema: 'Terapan', status: 'Pending', dana: 'Rp 13.500.000' },
 
     // --- SKEMA PENGEMBANGAN (5 Data) ---
-    { id: 11, judul: 'Pengembangan Kurikulum Vokasi Berbasis Kebutuhan Industri', pengusul: 'Dewi Sartika', skema: 'Pengembangan', status: 'Pending', dana: 'Rp 20.000.000' },
+    { id: 11, reviewer_id: 2, judul: 'Pengembangan Kurikulum Vokasi Berbasis Kebutuhan Industri', pengusul: 'Dewi Sartika', skema: 'Pengembangan', status: 'Pending', dana: 'Rp 20.000.000' },
     { id: 12, judul: 'Model Inkubator Bisnis untuk Start-up Mahasiswa', pengusul: 'Joko Anwar', skema: 'Pengembangan', status: 'Pending', dana: 'Rp 25.000.000' },
     { id: 13, judul: 'Digitalisasi Arsip Manuskrip Kuno Perpustakaan Daerah', pengusul: 'Sri Wahyuni', skema: 'Pengembangan', status: 'Pending', dana: 'Rp 22.000.000' },
     { id: 14, judul: 'Pengembangan Laboratorium Virtual untuk Praktikum Kimia', pengusul: 'Hendra Gunawan', skema: 'Pengembangan', status: 'Pending', dana: 'Rp 28.000.000' },
@@ -94,7 +94,7 @@ exports.getProposalsByWave = (tahun, gelombang, skemaFilter) => {
     if (skemaFilter) {
         return mockProposalList.filter(item => item.skema === skemaFilter);
     }
-    
+
     // Default (misal 'Dasar' jika tidak ada filter)
     return mockProposalList.filter(item => item.skema === 'Dasar');
 };
@@ -115,7 +115,20 @@ exports.getProposalsByWave = (tahun, gelombang, skemaFilter) => {
     if (skemaFilter) {
         return mockProposalList.filter(item => item.skema === skemaFilter);
     }
-    
+
     // Default
     return mockProposalList.filter(item => item.skema === 'Dasar');
+};
+
+exports.findByReviewer = (reviewerId) => {
+    // Menggunakan == untuk toleransi perbandingan string/number dari session
+    return mockProposalList.filter(p => p.reviewer_id == reviewerId);
+};
+
+/**
+ * Mengambil detail satu proposal berdasarkan ID
+ * @param {number|string} id 
+ */
+exports.findById = (id) => {
+    return mockProposalList.find(p => p.id == id);
 };

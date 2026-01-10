@@ -1,0 +1,194 @@
+<%- include('../../partials/header.ejs') %>
+
+    <style>
+        body {
+            background: #e6e6e6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .page-wrapper {
+            max-width: 1500px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 32px 40px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 30px;
+            padding: 8px 16px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .table-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        thead {
+            background: #f5f5f5;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .btn-detail {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #aaa;
+            background: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
+
+    <div class="page-wrapper">
+        <h1 class="page-title">Penelitian Mahasiswa/Dosen</h1>
+
+        <div class="filter-section">
+            <div class="search-bar">
+                <i class="bx bx-search"></i>
+                <input type="text" id="searchInput" placeholder="Cari Judul atau Pengusul...">
+            </div>
+
+            <form action="/reviewer/penelitian" method="GET" style="display: flex; gap: 10px;">
+                <select name="skema" onchange="this.form.submit()" style="padding: 8px; border-radius: 8px;">
+                    <option value="Dasar" <%=currentFilter==='Dasar' ? 'selected' : '' %>>Skema Dasar</option>
+                    <option value="Terapan" <%=currentFilter==='Terapan' ? 'selected' : '' %>>Skema Terapan</option>
+                    <option value="Pengembangan" <%=currentFilter==='Pengembangan' ? 'selected' : '' %>>Skema
+                        Pengembangan</option>
+                    <option value="Prodi" <%=currentFilter==='Prodi' ? 'selected' : '' %>>Berdasarkan Prodi</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table id="penelitianTable">
+                <thead>
+                    <% if (currentFilter==='Prodi' ) { %>
+                        <tr>
+                            <th>No.</th>
+                            <th>Program Studi</th>
+                            <th>Total Proposal</th>
+                            <th>Total Dana Terdistribusi</th>
+                        </tr>
+                        <% } else { %>
+                            <tr>
+                                <th>No.</th>
+                                <th>Judul Penelitian</th>
+                                <th>Pengusul</th>
+                                <th>Skema</th>
+                                <th>Status</th>
+                                <th>Usulan Dana</th>
+                                <th class="center">Aksi</th>
+                            </tr>
+                            <% } %>
+                </thead>
+                <tbody>
+                    <% penelitian.forEach((item, index)=> { %>
+                        <% if (currentFilter==='Prodi' ) { %>
+                            <tr>
+                                <td class="center">
+                                    <%= index + 1 %>
+                                </td>
+                                <td><strong>
+                                        <%= item.prodi %>
+                                    </strong></td>
+                                <td>
+                                    <%= item.total_proposal %> Proposal
+                                </td>
+                                <td>
+                                    <%= item.total_dana %>
+                                </td>
+                            </tr>
+                            <% } else { %>
+                                <tr>
+                                    <td class="center">
+                                        <%= index + 1 %>
+                                    </td>
+                                    <td style="max-width: 350px;">
+                                        <%= item.judul %>
+                                    </td>
+                                    <td>
+                                        <%= item.pengusul %>
+                                    </td>
+                                    <td>
+                                        <%= item.skema %>
+                                    </td>
+                                    <td><span class="badge">
+                                            <%= item.status %>
+                                        </span></td>
+                                    <td>
+                                        <%= item.dana %>
+                                    </td>
+                                    <td class="center">
+                                        <a href="/reviewer/penelitian/<%= item.id %>" class="btn-detail">Lihat
+                                            Detail</a>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% }) %>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 15px; font-size: 13px;">
+                Total Data: <strong>
+                    <%= penelitian.length %>
+                </strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const rows = document.querySelectorAll('#penelitianTable tbody tr');
+
+        searchInput.addEventListener('keyup', () => {
+            const value = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+            });
+        });
+    </script>
+
+    <%- include('../../partials/footer.ejs') %>

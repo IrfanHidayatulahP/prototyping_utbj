@@ -5,19 +5,18 @@ const Proposal = require('../../models/proposal');
 
 exports.listReviewerProposal = (req, res) => {
     const user = req.session && req.session.user;
+
     if (!user) return res.redirect('/login');
+    if (user.role !== 'reviewer') return res.status(403).send('Akses ditolak');
 
-    if (user.role !== 'reviewer') {
-        return res.status(403).send('Akses ditolak');
-    }
-
+    // Mengambil proposal khusus untuk reviewer yang sedang login
     const proposals = Proposal.findByReviewer(user.id);
 
     return res.render('reviewer/proposal/proposal_reviewer', {
         title: 'Proposal Reviewer',
         name: user.name,
         active: 'proposal',
-        proposals
+        proposals: proposals // Data dikirim ke EJS
     });
 };
 

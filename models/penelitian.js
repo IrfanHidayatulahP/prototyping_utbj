@@ -74,7 +74,11 @@ exports.getPenelitianList = (tahun, gelombang, skemaFilter) => {
     if (skemaFilter) {
         return mockPenelitianList.filter(item => item.skema === skemaFilter);
     }
-    
+
     // Default: Dasar
     return mockPenelitianList.filter(item => item.skema === 'Dasar');
+};
+
+exports.findById = (id) => {
+    return mockPenelitianList.find(item => item.id == id);
 };

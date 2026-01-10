@@ -143,10 +143,28 @@
 
             <div class="mt-auto pt-4 border-t border-gray-300 text-right">
                 <span class="text-sm font-bold text-gray-800">
+                    <% 
+                        // Fungsi helper untuk menghitung total dana
+                        // Input data berupa string "Rp 100.000.000" -> perlu di-parse jadi angka
+                        let totalDana = 0;
+                        if (typeof penelitianList !== 'undefined' && penelitianList.length > 0) {
+                            totalDana = penelitianList.reduce((acc, item) => {
+                                // Hapus "Rp " dan titik "." untuk jadi angka murni
+                                // Contoh: "Rp 15.000.000" -> 15000000
+                                const danaStr = (currentSkema === 'Prodi') ? item.total_dana : item.dana;
+                                const cleanDana = parseInt(danaStr.replace(/[^0-9]/g, '')) || 0;
+                                return acc + cleanDana;
+                            }, 0);
+                        }
+                        
+                        // Format kembali ke Rupiah
+                        const formattedTotal = "Rp " + totalDana.toLocaleString('id-ID');
+                    %>
+
                     <% if (currentSkema === 'Prodi') { %>
-                        Total Prodi : <%= typeof penelitianList !== 'undefined' ? penelitianList.length : 0 %>
+                        Total Dana (Semua Prodi) : <%= formattedTotal %>
                     <% } else { %>
-                        Total Penelitian (<%= currentSkema %>) : <%= typeof penelitianList !== 'undefined' ? penelitianList.length : 0 %>
+                        Total Dana (<%= currentSkema %>) : <%= formattedTotal %>
                     <% } %>
                 </span>
             </div>
